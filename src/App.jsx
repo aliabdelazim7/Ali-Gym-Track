@@ -1548,7 +1548,7 @@ export default function App() {
         </div>
       </header>
 
-      <nav className="max-w-3xl mx-auto mb-6 bg-slate-900/90 p-1.5 rounded-2xl flex gap-1 border border-slate-800 font-arabic shadow-inner">
+      <nav className="hidden md:flex max-w-3xl mx-auto mb-6 bg-slate-900/90 p-1.5 rounded-2xl gap-1 border border-slate-800 font-arabic shadow-inner">
         <button
           onClick={() => setMainTab('workout')}
           className={`flex-1 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 transition-all ${
@@ -1787,7 +1787,7 @@ export default function App() {
 
       </main>
 
-      /* Mobile Native Bottom Glass Navigation Bar */
+      {/* Mobile Native Bottom Glass Navigation Bar */}
       <div className="fixed bottom-0 left-0 right-0 z-50 bg-slate-950/95 backdrop-blur-xl border-t border-slate-800/90 px-3 py-2 pb-safe shadow-2xl font-arabic">
         <div className="max-w-md mx-auto flex items-center justify-between gap-1">
           <button
@@ -1812,7 +1812,7 @@ export default function App() {
           <button
             type="button"
             onClick={handleEndDay}
-            className="px-3 py-2 rounded-2xl bg-gradient-to-tr from-orange-600 via-amber-500 to-emerald-500 text-white font-black text-xs shadow-lg shadow-orange-950/50 flex flex-col items-center justify-center gap-0.5 border border-amber-300/40 active-press glow-orange"
+            className="px-3 py-2 rounded-2xl bg-gradient-to-tr from-orange-600 via-amber-500 to-emerald-500 text-white font-black text-xs shadow-lg shadow-orange-950/50 flex flex-col items-center justify-center gap-0.5 border border-amber-300/40 active-press glow-orange shrink-0"
           >
             <Trophy className="w-5 h-5 text-amber-200" />
             <span className="text-[9px] font-bold">تقفيل اليوم</span>
