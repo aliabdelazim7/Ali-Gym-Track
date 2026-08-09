@@ -22,7 +22,7 @@ const YoutubeIcon = ({ className = "w-4 h-4" }) => (
 
 
 
-// ================= REAL-TIME CLOUD SYNC ENGINE =================
+// ================= REAL-TIME CLOUD SYNC ENGINE (100% UNIVERSAL STATE) =================
 const DEFAULT_CLOUD_BIN_ID = "019fe604-c535-71a6-a516-7877bb05e289";
 
 const useCloudSync = (
@@ -32,6 +32,13 @@ const useCloudSync = (
   dietProgress, setDietProgress,
   waterGlasses, setWaterGlasses,
   weightLogs, setWeightLogs,
+  activeDay, setActiveDay,
+  watchSteps, setWatchSteps,
+  watchCal, setWatchCal,
+  watchHR, setWatchHR,
+  watchMaxHR, setWatchMaxHR,
+  watchConnected, setWatchConnected,
+  watchName, setWatchName,
   triggerHaptic
 ) => {
   const [cloudBinId, setCloudBinId] = useState(() => {
@@ -42,7 +49,7 @@ const useCloudSync = (
   const [customKeyInput, setCustomKeyInput] = useState('');
   const isInitialMount = useRef(true);
 
-    // Fetch Cloud Data on Mount
+  // Fetch Cloud Data on Mount
   const fetchCloudData = async () => {
     setSyncStatus('syncing');
     try {
@@ -56,12 +63,57 @@ const useCloudSync = (
       if (res.ok) {
         const data = await res.json();
         if (data && typeof data === 'object') {
-          if (data.workoutProgress && typeof data.workoutProgress === 'object') setWorkoutProgress(data.workoutProgress);
-          if (data.exerciseWeights && typeof data.exerciseWeights === 'object') setExerciseWeights(data.exerciseWeights);
-          if (data.exerciseReps && typeof data.exerciseReps === 'object') setExerciseReps(data.exerciseReps);
-          if (data.dietProgress && typeof data.dietProgress === 'object') setDietProgress(data.dietProgress);
-          if (typeof data.waterGlasses === 'number' && !isNaN(data.waterGlasses)) setWaterGlasses(data.waterGlasses);
-          if (Array.isArray(data.weightLogs) && data.weightLogs.length > 0) setWeightLogs(data.weightLogs);
+          if (data.workoutProgress && typeof data.workoutProgress === 'object') {
+            setWorkoutProgress(data.workoutProgress);
+            localStorage.setItem('gymProgress_Ali_Workout', JSON.stringify(data.workoutProgress));
+          }
+          if (data.exerciseWeights && typeof data.exerciseWeights === 'object') {
+            setExerciseWeights(data.exerciseWeights);
+            localStorage.setItem('gymProgress_Ali_ExerciseWeights', JSON.stringify(data.exerciseWeights));
+          }
+          if (data.exerciseReps && typeof data.exerciseReps === 'object') {
+            setExerciseReps(data.exerciseReps);
+            localStorage.setItem('gymProgress_Ali_ExerciseReps', JSON.stringify(data.exerciseReps));
+          }
+          if (data.dietProgress && typeof data.dietProgress === 'object') {
+            setDietProgress(data.dietProgress);
+            localStorage.setItem('gymProgress_Ali_Diet', JSON.stringify(data.dietProgress));
+          }
+          if (typeof data.waterGlasses === 'number' && !isNaN(data.waterGlasses)) {
+            setWaterGlasses(data.waterGlasses);
+            localStorage.setItem('gymProgress_Ali_Water', data.waterGlasses.toString());
+          }
+          if (Array.isArray(data.weightLogs)) {
+            setWeightLogs(data.weightLogs);
+            localStorage.setItem('gymProgress_Ali_Weights', JSON.stringify(data.weightLogs));
+          }
+          if (typeof data.activeDay === 'number' && data.activeDay >= 1 && data.activeDay <= 5) {
+            setActiveDay(data.activeDay);
+          }
+          if (typeof data.watchSteps === 'number') {
+            setWatchSteps(data.watchSteps);
+            localStorage.setItem('gymProgress_Ali_WatchSteps', data.watchSteps.toString());
+          }
+          if (typeof data.watchCal === 'number') {
+            setWatchCal(data.watchCal);
+            localStorage.setItem('gymProgress_Ali_WatchCal', data.watchCal.toString());
+          }
+          if (typeof data.watchHR === 'number') {
+            setWatchHR(data.watchHR);
+            localStorage.setItem('gymProgress_Ali_WatchHR', data.watchHR.toString());
+          }
+          if (typeof data.watchMaxHR === 'number') {
+            setWatchMaxHR(data.watchMaxHR);
+            localStorage.setItem('gymProgress_Ali_WatchMaxHR', data.watchMaxHR.toString());
+          }
+          if (typeof data.watchConnected === 'boolean') {
+            setWatchConnected(data.watchConnected);
+            localStorage.setItem('gymProgress_Ali_WatchConnected', data.watchConnected ? 'true' : 'false');
+          }
+          if (typeof data.watchName === 'string') {
+            setWatchName(data.watchName);
+            localStorage.setItem('gymProgress_Ali_WatchName', data.watchName);
+          }
         }
       }
     } catch(e) {
@@ -71,7 +123,7 @@ const useCloudSync = (
     }
   };
 
-    // Push Data to Cloud
+  // Push Data to Cloud
   const pushCloudData = async () => {
     setSyncStatus('syncing');
     try {
@@ -85,7 +137,14 @@ const useCloudSync = (
         exerciseReps: exerciseReps || {},
         dietProgress: dietProgress || {},
         waterGlasses: waterGlasses || 0,
-        weightLogs: Array.isArray(weightLogs) ? weightLogs : []
+        weightLogs: Array.isArray(weightLogs) ? weightLogs : [],
+        activeDay: activeDay || 1,
+        watchSteps: watchSteps || 0,
+        watchCal: watchCal || 0,
+        watchHR: watchHR || 0,
+        watchMaxHR: watchMaxHR || 0,
+        watchConnected: !!watchConnected,
+        watchName: watchName || ''
       };
 
       const res = await fetch(`https://jsonblob.com/api/jsonBlob/${cloudBinId}`, {
@@ -123,10 +182,14 @@ const useCloudSync = (
 
     const timer = setTimeout(() => {
       pushCloudData();
-    }, 1200);
+    }, 1000);
 
     return () => clearTimeout(timer);
-  }, [workoutProgress, exerciseWeights, exerciseReps, dietProgress, waterGlasses, weightLogs]);
+  }, [
+    workoutProgress, exerciseWeights, exerciseReps, dietProgress,
+    waterGlasses, weightLogs, activeDay, watchSteps, watchCal,
+    watchHR, watchMaxHR, watchConnected, watchName
+  ]);
 
   const handleCustomKeySubmit = (e) => {
     e.preventDefault();
@@ -154,33 +217,19 @@ const useCloudSync = (
 
 
 // ================= FULL SMARTWATCH TELEMETRY TAB =================
-const SmartWatchFullTab = ({ soundEnabled, triggerHaptic }) => {
+const SmartWatchFullTab = ({ 
+  soundEnabled, 
+  triggerHaptic,
+  isConnected, setIsConnected,
+  deviceName, setDeviceName,
+  heartRate, setHeartRate,
+  maxHR, setMaxHR,
+  activeCalories, setActiveCalories,
+  stepCount, setStepCount
+}) => {
   const [device, setDevice] = useState(null);
-  const [isConnected, setIsConnected] = useState(() => {
-    return localStorage.getItem('gymProgress_Ali_WatchConnected') === 'true';
-  });
   const [isConnecting, setIsConnecting] = useState(false);
   const [showSyncModal, setShowSyncModal] = useState(false);
-  
-  const [deviceName, setDeviceName] = useState(() => {
-    return localStorage.getItem('gymProgress_Ali_WatchName') || '';
-  });
-  const [heartRate, setHeartRate] = useState(() => {
-    const saved = localStorage.getItem('gymProgress_Ali_WatchHR');
-    return saved ? parseInt(saved, 10) : 0;
-  });
-  const [maxHR, setMaxHR] = useState(() => {
-    const saved = localStorage.getItem('gymProgress_Ali_WatchMaxHR');
-    return saved ? parseInt(saved, 10) : 0;
-  });
-  const [activeCalories, setActiveCalories] = useState(() => {
-    const saved = localStorage.getItem('gymProgress_Ali_WatchCal');
-    return saved ? parseInt(saved, 10) : 0;
-  });
-  const [stepCount, setStepCount] = useState(() => {
-    const saved = localStorage.getItem('gymProgress_Ali_WatchSteps');
-    return saved ? parseInt(saved, 10) : 0;
-  });
 
   // Manual Form State
   const [manualSteps, setManualSteps] = useState('');
@@ -1923,6 +1972,29 @@ function MainApp() {
   const currentDateFormatted = new Date().toLocaleDateString('ar-EG', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
   const todayKey = new Date().toDateString();
 
+  const [watchSteps, setWatchSteps] = useState(() => {
+    const saved = localStorage.getItem('gymProgress_Ali_WatchSteps');
+    return saved ? parseInt(saved, 10) : 0;
+  });
+  const [watchCal, setWatchCal] = useState(() => {
+    const saved = localStorage.getItem('gymProgress_Ali_WatchCal');
+    return saved ? parseInt(saved, 10) : 0;
+  });
+  const [watchHR, setWatchHR] = useState(() => {
+    const saved = localStorage.getItem('gymProgress_Ali_WatchHR');
+    return saved ? parseInt(saved, 10) : 0;
+  });
+  const [watchMaxHR, setWatchMaxHR] = useState(() => {
+    const saved = localStorage.getItem('gymProgress_Ali_WatchMaxHR');
+    return saved ? parseInt(saved, 10) : 0;
+  });
+  const [watchConnected, setWatchConnected] = useState(() => {
+    return localStorage.getItem('gymProgress_Ali_WatchConnected') === 'true';
+  });
+  const [watchName, setWatchName] = useState(() => {
+    return localStorage.getItem('gymProgress_Ali_WatchName') || '';
+  });
+
   const cloudSync = useCloudSync(
     workoutProgress, setWorkoutProgress,
     exerciseWeights, setExerciseWeights,
@@ -1930,6 +2002,13 @@ function MainApp() {
     dietProgress, setDietProgress,
     waterGlasses, setWaterGlasses,
     weightLogs, setWeightLogs,
+    activeDay, setActiveDay,
+    watchSteps, setWatchSteps,
+    watchCal, setWatchCal,
+    watchHR, setWatchHR,
+    watchMaxHR, setWatchMaxHR,
+    watchConnected, setWatchConnected,
+    watchName, setWatchName,
     triggerHaptic
   );
 
@@ -2413,7 +2492,22 @@ function MainApp() {
         )}
 
         {mainTab === 'smartwatch' && (
-          <SmartWatchFullTab soundEnabled={soundEnabled} triggerHaptic={triggerHaptic} />
+          <SmartWatchFullTab 
+            soundEnabled={soundEnabled} 
+            triggerHaptic={triggerHaptic}
+            isConnected={watchConnected}
+            setIsConnected={setWatchConnected}
+            deviceName={watchName}
+            setDeviceName={setWatchName}
+            heartRate={watchHR}
+            setHeartRate={setWatchHR}
+            maxHR={watchMaxHR}
+            setMaxHR={setWatchMaxHR}
+            activeCalories={watchCal}
+            setActiveCalories={setWatchCal}
+            stepCount={watchSteps}
+            setStepCount={setWatchSteps}
+          />
         )}
 
         {mainTab === 'achievements' && (
