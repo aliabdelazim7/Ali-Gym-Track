@@ -1512,6 +1512,22 @@ function MainApp() {
     setShowEvalModal(true);
   };
 
+  
+  const handleClearBrowserCache = async () => {
+    triggerHaptic();
+    try {
+      if ('serviceWorker' in navigator) {
+        const regs = await navigator.serviceWorker.getRegistrations();
+        for (let r of regs) await r.unregister();
+      }
+      if ('caches' in window) {
+        const keys = await caches.keys();
+        for (let k of keys) await caches.delete(k);
+      }
+    } catch(e){}
+    window.location.reload(true);
+  };
+
   const exportData = () => {
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({
       workoutProgress,
@@ -1579,6 +1595,14 @@ function MainApp() {
               title={soundEnabled ? "الصوت مفعل" : "الصوت مكتوم"}
             >
               {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
+            </button>
+            <button 
+              type="button"
+              onClick={handleClearBrowserCache} 
+              className="p-2 text-slate-400 hover:text-amber-400 rounded-xl transition-colors"
+              title="مسح كاش المتصفح والتحديث الفوري"
+            >
+              <RefreshCw className="w-4 h-4" />
             </button>
             <button 
               type="button"
