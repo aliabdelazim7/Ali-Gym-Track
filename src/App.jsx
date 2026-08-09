@@ -1093,13 +1093,7 @@ const dietPlan = {
   ]
 };
 
-const initialWeightLogs = [
-  { id: 1, date: "01/08", exerciseName: "Bench Press", weight: 70, reps: 10 },
-  { id: 2, date: "03/08", exerciseName: "Squats", weight: 85, reps: 8 },
-  { id: 3, date: "05/08", exerciseName: "Romanian Deadlift", weight: 75, reps: 10 },
-  { id: 4, date: "07/08", exerciseName: "Bench Press", weight: 72.5, reps: 9 },
-  { id: 5, date: "09/08", exerciseName: "Squats", weight: 90, reps: 8 }
-];
+const initialWeightLogs = [];
 
 const messages = {
   success: [
@@ -1659,17 +1653,17 @@ const ProgressiveAnalyticsView = ({ weightLogs, onAddWeightLog, onDeleteWeightLo
 };
 
 // ================= GAMIFICATION & ACHIEVEMENTS VIEW =================
-const AchievementsView = ({ completedTasksCount, totalVolumeThisWeek, exportData, importData }) => {
+const AchievementsView = ({ completedTasksCount, totalVolumeThisWeek, waterGlasses, exportData, importData }) => {
   const xp = (completedTasksCount * 150) + Math.floor(totalVolumeThisWeek / 10);
   const level = Math.floor(xp / 1000) + 1;
   const xpCurrentLevel = xp % 1000;
   const levelTitle = level >= 10 ? "Principal Iron God 🏆" : level >= 7 ? "Lead Muscle Architect ⚡" : level >= 4 ? "Senior Strength Dev 🦾" : "Junior Lifter 🚀";
 
   const badges = [
-    { id: 1, title: "1000kg Club", desc: "رفع أكثر من 1000 كجم إجمالي", icon: Trophy, unlocked: totalVolumeThisWeek >= 1000 },
-    { id: 2, title: "Discipline 100%", desc: "إكمال جميع تمارين اليوم", icon: ShieldCheck, unlocked: completedTasksCount >= 10 },
-    { id: 3, title: "Macro Precision", desc: "التزام كامل بالوجبات والتغذية", icon: Flame, unlocked: completedTasksCount >= 5 },
-    { id: 4, title: "Hydration King", desc: "شرب 8 كوب مية", icon: Droplets, unlocked: true }
+    { id: 1, title: "1000kg Club", desc: "رفع أكثر من 1000 كجم إجمالي حقيقي", icon: Trophy, unlocked: totalVolumeThisWeek >= 1000 },
+    { id: 2, title: "Discipline 100%", desc: "إكمال جميع تمارين اليوم الحقيقية", icon: ShieldCheck, unlocked: completedTasksCount >= 8 && completedTasksCount > 0 },
+    { id: 3, title: "Macro Precision", desc: "التزام بكافة وجبات التغذية اليومية", icon: Flame, unlocked: completedTasksCount >= 5 },
+    { id: 4, title: "Hydration King", desc: "شرب 8 أكواب مية كاملة", icon: Droplets, unlocked: typeof waterGlasses === 'number' && waterGlasses >= 8 }
   ];
 
   return (
@@ -1922,8 +1916,8 @@ function MainApp() {
     try {
       const saved = localStorage.getItem('gymProgress_Ali_Weights');
       const parsed = saved ? JSON.parse(saved) : null;
-      return Array.isArray(parsed) ? parsed : initialWeightLogs;
-    } catch(e) { return initialWeightLogs; }
+      return Array.isArray(parsed) ? parsed : [];
+    } catch(e) { return []; }
   });
 
   const currentDateFormatted = new Date().toLocaleDateString('ar-EG', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
