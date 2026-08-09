@@ -1,4 +1,7 @@
-<!doctype html>
+import fs from 'fs';
+
+// 1. Update index.html
+const indexHtmlContent = `<!doctype html>
 <html lang="ar" dir="rtl">
   <head>
     <meta charset="UTF-8" />
@@ -35,4 +38,30 @@
       }
     </script>
   </body>
-</html>
+</html>`;
+
+fs.writeFileSync('e:\\ali-Gym-Track\\index.html', indexHtmlContent, 'utf8');
+
+// 2. Update public/sw.js
+const swContent = `self.addEventListener('install', (e) => self.skipWaiting());
+self.addEventListener('activate', (e) => {
+  e.waitUntil(
+    caches.keys().then((keys) => Promise.all(keys.map((k) => caches.delete(k))))
+      .then(() => self.registration.unregister())
+      .then(() => self.clients.claim())
+  );
+});
+self.addEventListener('fetch', (e) => e.respondWith(fetch(e.request)));
+`;
+fs.writeFileSync('e:\\ali-Gym-Track\\public\\sw.js', swContent, 'utf8');
+
+// 3. Update App.jsx Recharts height
+let appCode = fs.readFileSync('e:\\ali-Gym-Track\\src\\App.jsx', 'utf8');
+appCode = appCode.replace(
+  '<ResponsiveContainer width="100%" height="100%">',
+  '<ResponsiveContainer width="100%" height={240}>'
+);
+
+fs.writeFileSync('e:\\ali-Gym-Track\\src\\App.jsx', appCode, 'utf8');
+
+console.log('Successfully applied total mobile fix (ServiceWorker unregister + Recharts height fix + index.html self-healing)!');
