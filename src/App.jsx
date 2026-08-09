@@ -19,8 +19,9 @@ const YoutubeIcon = ({ className = "w-4 h-4" }) => (
 );
 
 
-// ================= WEB BLUETOOTH SMARTWATCH ENGINE =================
-const SmartWatchCard = ({ soundEnabled, triggerHaptic }) => {
+
+// ================= FULL SMARTWATCH TELEMETRY TAB =================
+const SmartWatchFullTab = ({ soundEnabled, triggerHaptic }) => {
   const [device, setDevice] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
@@ -28,18 +29,17 @@ const SmartWatchCard = ({ soundEnabled, triggerHaptic }) => {
     return localStorage.getItem('gymProgress_Ali_WatchName') || '';
   });
   const [heartRate, setHeartRate] = useState(() => {
-    return parseInt(localStorage.getItem('gymProgress_Ali_WatchHR') || '72');
+    return parseInt(localStorage.getItem('gymProgress_Ali_WatchHR') || '78');
   });
   const [maxHR, setMaxHR] = useState(() => {
-    return parseInt(localStorage.getItem('gymProgress_Ali_WatchMaxHR') || '145');
+    return parseInt(localStorage.getItem('gymProgress_Ali_WatchMaxHR') || '152');
   });
   const [activeCalories, setActiveCalories] = useState(() => {
-    return parseInt(localStorage.getItem('gymProgress_Ali_WatchCal') || '380');
+    return parseInt(localStorage.getItem('gymProgress_Ali_WatchCal') || '420');
   });
   const [stepCount, setStepCount] = useState(() => {
-    return parseInt(localStorage.getItem('gymProgress_Ali_WatchSteps') || '6420');
+    return parseInt(localStorage.getItem('gymProgress_Ali_WatchSteps') || '7850');
   });
-  const [logHistory, setLogHistory] = useState([]);
 
   // Connect via Web Bluetooth API
   const connectBluetoothWatch = async () => {
@@ -62,10 +62,8 @@ const SmartWatchCard = ({ soundEnabled, triggerHaptic }) => {
       setIsConnected(true);
       setIsConnecting(false);
 
-      // Listen for disconnection
       selectedDevice.addEventListener('gattserverdisconnected', onDisconnected);
 
-      // Connect to GATT Server if available
       const server = await selectedDevice.gatt.connect();
       try {
         const service = await server.getPrimaryService('heart_rate');
@@ -109,7 +107,6 @@ const SmartWatchCard = ({ soundEnabled, triggerHaptic }) => {
     setDevice(null);
   };
 
-  // Determine Heart Rate Zone
   const getHRZone = (bpm) => {
     if (bpm < 100) return { label: 'راحة / ريكفري', color: 'text-blue-400', bg: 'bg-blue-500/10 border-blue-500/30' };
     if (bpm < 135) return { label: 'حرق دهون (Fat Burn)', color: 'text-emerald-400', bg: 'bg-emerald-500/10 border-emerald-500/30' };
@@ -119,112 +116,157 @@ const SmartWatchCard = ({ soundEnabled, triggerHaptic }) => {
 
   const currentZone = getHRZone(heartRate);
 
-  return (
-    <div className="bg-slate-900/90 border border-slate-800 rounded-3xl p-5 shadow-2xl mb-6 font-arabic animate-in fade-in duration-300">
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-3">
-          <div className={`w-12 h-12 rounded-2xl flex items-center justify-center border transition-all ${isConnected ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-400 glow-emerald' : 'bg-slate-800/80 border-slate-700 text-slate-400'}`}>
-            <Smartphone className="w-6 h-6 animate-pulse" />
-          </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <h3 className="text-base font-bold text-white">الساعة الذكية (Web Bluetooth)</h3>
-              <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold border ${isConnected ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40' : 'bg-slate-800 text-slate-400 border-slate-700'}`}>
-                {isConnected ? 'متصلة 🟢' : 'غير متصلة ⚪'}
-              </span>
-            </div>
-            <p className="text-xs text-slate-400">
-              {isConnected ? (deviceName || 'ساعة البلوتوث الذكية') : 'اربط ساعتك مباشرة عبر البلوتوث لقراءة النبض والنشاط'}
-            </p>
-          </div>
-        </div>
+  const addSteps = (count) => {
+    triggerHaptic();
+    const newSteps = stepCount + count;
+    setStepCount(newSteps);
+    localStorage.setItem('gymProgress_Ali_WatchSteps', newSteps.toString());
+  };
 
-        <div>
-          {!isConnected ? (
-            <button
-              onClick={connectBluetoothWatch}
-              disabled={isConnecting}
-              className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-lg transition-all active-press flex items-center gap-2"
-            >
-              {isConnecting ? (
-                <>
-                  <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                  <span>جاري البحث...</span>
-                </>
-              ) : (
-                <>
-                  <Zap className="w-4 h-4 text-amber-300" />
-                  <span>ربط الساعة ⌚</span>
-                </>
-              )}
-            </button>
-          ) : (
-            <button
-              onClick={disconnectWatch}
-              className="bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 text-xs font-bold px-3 py-2 rounded-xl transition-all"
-            >
-              فصل الاتصال
-            </button>
-          )}
+  return (
+    <div className="space-y-6 font-arabic animate-in fade-in duration-300">
+      {/* Header Banner */}
+      <div className="bg-gradient-to-r from-slate-900 via-blue-950/60 to-slate-900 border border-blue-500/30 rounded-3xl p-6 shadow-2xl relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 relative z-10">
+          <div className="flex items-center gap-4">
+            <div className={`w-14 h-14 rounded-2xl flex items-center justify-center border transition-all shadow-lg ${isConnected ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-400 glow-emerald' : 'bg-slate-800 border-slate-700 text-slate-400'}`}>
+              <Smartphone className="w-7 h-7 animate-pulse" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h2 className="text-xl font-black text-white">الساعة الذكية (SmartWatch Connect)</h2>
+                <span className={`text-[10px] px-2.5 py-0.5 rounded-full font-bold border ${isConnected ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40' : 'bg-slate-800 text-slate-400 border-slate-700'}`}>
+                  {isConnected ? 'متصلة 🟢' : 'غير متصلة ⚪'}
+                </span>
+              </div>
+              <p className="text-xs text-slate-400 mt-1">
+                {isConnected ? (deviceName || 'ساعة البلوتوث المباشرة') : 'اربط ساعتك الذكية مباشرة لقراءة النبض والخطوات والسعرات أونلاين'}
+              </p>
+            </div>
+          </div>
+
+          <div>
+            {!isConnected ? (
+              <button
+                onClick={connectBluetoothWatch}
+                disabled={isConnecting}
+                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold px-5 py-3 rounded-2xl shadow-xl transition-all active-press flex items-center gap-2 text-sm"
+              >
+                {isConnecting ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    <span>جاري البحث...</span>
+                  </>
+                ) : (
+                  <>
+                    <Zap className="w-4 h-4 text-amber-300" />
+                    <span>ربط الساعة المباشر ⌚</span>
+                  </>
+                )}
+              </button>
+            ) : (
+              <button
+                onClick={disconnectWatch}
+                className="bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 font-bold px-4 py-2.5 rounded-xl transition-all text-xs"
+              >
+                فصل الاتصال بالساعة
+              </button>
+            )}
+          </div>
         </div>
       </div>
 
-      {/* Metrics Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        {/* Heart Rate Live Metric */}
-        <div className="bg-slate-950/80 border border-slate-800/80 rounded-2xl p-3.5 flex flex-col justify-between">
-          <div className="flex items-center justify-between text-slate-400 mb-1">
-            <span className="text-[11px] font-semibold">نبض القلب المباشر</span>
-            <HeartPulse className={`w-4 h-4 ${isConnected ? 'text-red-500 animate-ping' : 'text-slate-500'}`} />
+      {/* Main Metrics Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {/* Heart Rate Live Gauge */}
+        <div className="bg-slate-900/90 border border-slate-800 rounded-3xl p-5 shadow-xl flex flex-col justify-between relative overflow-hidden">
+          <div className="flex items-center justify-between text-slate-400 mb-2">
+            <span className="text-xs font-bold">نبض القلب المباشر</span>
+            <HeartPulse className={`w-5 h-5 ${isConnected ? 'text-red-500 animate-ping' : 'text-slate-500'}`} />
           </div>
-          <div className="flex items-baseline gap-1.5 my-1">
-            <span className="text-2xl font-black text-white font-mono">{heartRate}</span>
-            <span className="text-[10px] text-slate-400 font-bold">BPM</span>
+          <div className="flex items-baseline gap-2 my-2">
+            <span className="text-4xl font-black text-white font-mono tracking-tight">{heartRate}</span>
+            <span className="text-xs text-slate-400 font-bold">BPM</span>
           </div>
-          <div className={`text-[10px] px-2 py-0.5 rounded-lg border font-bold text-center mt-1 truncate ${currentZone.bg} ${currentZone.color}`}>
+          <div className={`text-xs px-3 py-1 rounded-xl border font-bold text-center mt-2 ${currentZone.bg} ${currentZone.color}`}>
             {currentZone.label}
           </div>
         </div>
 
         {/* Max HR Achieved */}
-        <div className="bg-slate-950/80 border border-slate-800/80 rounded-2xl p-3.5 flex flex-col justify-between">
-          <div className="flex items-center justify-between text-slate-400 mb-1">
-            <span className="text-[11px] font-semibold">أعلى نبض محقق</span>
-            <Flame className="w-4 h-4 text-orange-400" />
+        <div className="bg-slate-900/90 border border-slate-800 rounded-3xl p-5 shadow-xl flex flex-col justify-between">
+          <div className="flex items-center justify-between text-slate-400 mb-2">
+            <span className="text-xs font-bold">أعلى نبض محقق (Peak)</span>
+            <Flame className="w-5 h-5 text-orange-400" />
           </div>
-          <div className="flex items-baseline gap-1.5 my-1">
-            <span className="text-2xl font-black text-orange-400 font-mono">{maxHR}</span>
-            <span className="text-[10px] text-slate-400 font-bold">BPM</span>
+          <div className="flex items-baseline gap-2 my-2">
+            <span className="text-4xl font-black text-orange-400 font-mono tracking-tight">{maxHR}</span>
+            <span className="text-xs text-slate-400 font-bold">BPM</span>
           </div>
-          <span className="text-[10px] text-slate-400 font-medium">أقصى جهود المجموعات</span>
+          <span className="text-xs text-slate-400 font-medium">أثناء المجموعات الثقيلة</span>
         </div>
 
         {/* Active Calories Burned */}
-        <div className="bg-slate-950/80 border border-slate-800/80 rounded-2xl p-3.5 flex flex-col justify-between">
-          <div className="flex items-center justify-between text-slate-400 mb-1">
-            <span className="text-[11px] font-semibold">حرق التمرين النشط</span>
-            <Zap className="w-4 h-4 text-amber-400" />
+        <div className="bg-slate-900/90 border border-slate-800 rounded-3xl p-5 shadow-xl flex flex-col justify-between">
+          <div className="flex items-center justify-between text-slate-400 mb-2">
+            <span className="text-xs font-bold">السعرات المحروقة (Active)</span>
+            <Zap className="w-5 h-5 text-amber-400" />
           </div>
-          <div className="flex items-baseline gap-1.5 my-1">
-            <span className="text-2xl font-black text-amber-400 font-mono">{activeCalories}</span>
-            <span className="text-[10px] text-slate-400 font-bold">سعرة</span>
+          <div className="flex items-baseline gap-2 my-2">
+            <span className="text-4xl font-black text-amber-400 font-mono tracking-tight">{activeCalories}</span>
+            <span className="text-xs text-slate-400 font-bold">سعرة</span>
           </div>
-          <span className="text-[10px] text-slate-400 font-medium">مجهود التمارين والحديد</span>
+          <span className="text-xs text-slate-400 font-medium">مجهود الحديد والتمارين</span>
         </div>
 
-        {/* Daily Steps */}
-        <div className="bg-slate-950/80 border border-slate-800/80 rounded-2xl p-3.5 flex flex-col justify-between">
-          <div className="flex items-center justify-between text-slate-400 mb-1">
-            <span className="text-[11px] font-semibold">الخطوات اليومية</span>
-            <Activity className="w-4 h-4 text-emerald-400" />
+        {/* Daily Steps Counter */}
+        <div className="bg-slate-900/90 border border-slate-800 rounded-3xl p-5 shadow-xl flex flex-col justify-between">
+          <div className="flex items-center justify-between text-slate-400 mb-2">
+            <span className="text-xs font-bold">الخطوات اليومية</span>
+            <Activity className="w-5 h-5 text-emerald-400" />
           </div>
-          <div className="flex items-baseline gap-1.5 my-1">
-            <span className="text-2xl font-black text-emerald-400 font-mono">{stepCount.toLocaleString('ar-EG')}</span>
-            <span className="text-[10px] text-slate-400 font-bold">خطوة</span>
+          <div className="flex items-baseline gap-2 my-2">
+            <span className="text-3xl font-black text-emerald-400 font-mono tracking-tight">{stepCount.toLocaleString('ar-EG')}</span>
+            <span className="text-xs text-slate-400 font-bold">خطوة</span>
           </div>
-          <div className="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden mt-1">
-            <div className="bg-emerald-500 h-full rounded-full" style={{ width: `${Math.min(100, (stepCount / 10000) * 100)}%` }}></div>
+          <div className="space-y-1">
+            <div className="w-full bg-slate-950 rounded-full h-2 overflow-hidden border border-slate-800">
+              <div className="bg-gradient-to-r from-emerald-600 to-teal-400 h-full rounded-full transition-all" style={{ width: `${Math.min(100, (stepCount / 10000) * 100)}%` }}></div>
+            </div>
+            <div className="flex justify-between text-[10px] text-slate-400 font-semibold pt-0.5">
+              <span>الهدف: 10,000</span>
+              <span>{Math.round((stepCount / 10000) * 100)}%</span>
+            </div>
           </div>
+        </div>
+      </div>
+
+      {/* Quick Actions & Manual Adjustments */}
+      <div className="bg-slate-900/90 border border-slate-800 rounded-3xl p-5 shadow-xl">
+        <h3 className="text-sm font-bold text-white mb-3 flex items-center gap-2">
+          <Sparkles className="w-4 h-4 text-amber-400" />
+          تعديل سريع ومجموع الخطوات
+        </h3>
+        <div className="flex flex-wrap gap-2">
+          <button
+            onClick={() => addSteps(1000)}
+            className="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-200 text-xs font-bold px-4 py-2.5 rounded-xl transition-all active-press"
+          >
+            +1,000 خطوة 👟
+          </button>
+          <button
+            onClick={() => addSteps(2500)}
+            className="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-200 text-xs font-bold px-4 py-2.5 rounded-xl transition-all active-press"
+          >
+            +2,500 خطوة 👟
+          </button>
+          <button
+            onClick={() => addSteps(5000)}
+            className="bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-200 text-xs font-bold px-4 py-2.5 rounded-xl transition-all active-press"
+          >
+            +5,000 خطوة 👟
+          </button>
         </div>
       </div>
     </div>
@@ -1846,8 +1888,7 @@ function MainApp() {
         </div>
       </header>
 
-      {/* WEB BLUETOOTH SMARTWATCH CARD */}
-      <SmartWatchCard soundEnabled={soundEnabled} triggerHaptic={triggerHaptic} />
+      
 
       <nav className="hidden md:flex max-w-3xl mx-auto mb-6 bg-slate-900/90 p-1.5 rounded-2xl gap-1 border border-slate-800 font-arabic shadow-inner">
         <button
@@ -1869,6 +1910,16 @@ function MainApp() {
           }`}
         >
           <Utensils className="w-4 h-4" /> التغذية
+        </button>
+        <button
+          onClick={() => setMainTab('smartwatch')}
+          className={`flex-1 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 transition-all ${
+            mainTab === 'smartwatch' 
+              ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-950/50 border border-blue-400/40' 
+              : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+          }`}
+        >
+          <Smartphone className="w-4 h-4" /> الساعة
         </button>
         <button
           onClick={() => setMainTab('analytics')}
@@ -2077,6 +2128,10 @@ function MainApp() {
           />
         )}
 
+        {mainTab === 'smartwatch' && (
+          <SmartWatchFullTab soundEnabled={soundEnabled} triggerHaptic={triggerHaptic} />
+        )}
+
         {mainTab === 'achievements' && (
           <AchievementsView 
             completedTasksCount={completedTasks}
@@ -2107,6 +2162,15 @@ function MainApp() {
           >
             <Utensils className="w-5 h-5" />
             <span className="text-[10px]">التغذية</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => { triggerHaptic(); setMainTab('smartwatch'); }}
+            className={`flex-1 py-1.5 rounded-xl flex flex-col items-center justify-center gap-1 transition-all active-press ${mainTab === 'smartwatch' ? 'text-cyan-400 font-extrabold bg-cyan-500/10 border border-cyan-500/20' : 'text-slate-400 hover:text-slate-200'}`}
+          >
+            <Smartphone className="w-5 h-5" />
+            <span className="text-[10px]">الساعة</span>
           </button>
 
           {/* Center Action Button: End Day */}
