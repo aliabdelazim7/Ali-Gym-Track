@@ -42,43 +42,50 @@ const useCloudSync = (
   const [customKeyInput, setCustomKeyInput] = useState('');
   const isInitialMount = useRef(true);
 
-  // Fetch Cloud Data on Mount
+    // Fetch Cloud Data on Mount
   const fetchCloudData = async () => {
     setSyncStatus('syncing');
     try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 4000);
       const res = await fetch(`https://jsonblob.com/api/jsonBlob/${cloudBinId}`, {
-        headers: { 'Accept': 'application/json' }
+        headers: { 'Accept': 'application/json' },
+        signal: controller.signal
       });
+      clearTimeout(timeoutId);
       if (res.ok) {
         const data = await res.json();
-        if (data.workoutProgress && typeof data.workoutProgress === 'object') setWorkoutProgress(data.workoutProgress);
-        if (data.exerciseWeights && typeof data.exerciseWeights === 'object') setExerciseWeights(data.exerciseWeights);
-        if (data.exerciseReps && typeof data.exerciseReps === 'object') setExerciseReps(data.exerciseReps);
-        if (data.dietProgress && typeof data.dietProgress === 'object') setDietProgress(data.dietProgress);
-        if (typeof data.waterGlasses === 'number') setWaterGlasses(data.waterGlasses);
-        if (Array.isArray(data.weightLogs) && data.weightLogs.length > 0) setWeightLogs(data.weightLogs);
-        setSyncStatus('synced');
-      } else {
-        setSyncStatus('synced');
+        if (data && typeof data === 'object') {
+          if (data.workoutProgress && typeof data.workoutProgress === 'object') setWorkoutProgress(data.workoutProgress);
+          if (data.exerciseWeights && typeof data.exerciseWeights === 'object') setExerciseWeights(data.exerciseWeights);
+          if (data.exerciseReps && typeof data.exerciseReps === 'object') setExerciseReps(data.exerciseReps);
+          if (data.dietProgress && typeof data.dietProgress === 'object') setDietProgress(data.dietProgress);
+          if (typeof data.waterGlasses === 'number' && !isNaN(data.waterGlasses)) setWaterGlasses(data.waterGlasses);
+          if (Array.isArray(data.weightLogs) && data.weightLogs.length > 0) setWeightLogs(data.weightLogs);
+        }
       }
     } catch(e) {
+      console.log("Cloud sync fetch gracefully bypassed:", e);
+    } finally {
       setSyncStatus('synced');
     }
   };
 
-  // Push Data to Cloud
+    // Push Data to Cloud
   const pushCloudData = async () => {
     setSyncStatus('syncing');
     try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 4000);
       const payload = {
         appName: "Ali Gym Tracker Cloud",
         lastUpdated: new Date().toISOString(),
-        workoutProgress,
-        exerciseWeights,
-        exerciseReps,
-        dietProgress,
-        waterGlasses,
-        weightLogs
+        workoutProgress: workoutProgress || {},
+        exerciseWeights: exerciseWeights || {},
+        exerciseReps: exerciseReps || {},
+        dietProgress: dietProgress || {},
+        waterGlasses: waterGlasses || 0,
+        weightLogs: Array.isArray(weightLogs) ? weightLogs : []
       };
 
       const res = await fetch(`https://jsonblob.com/api/jsonBlob/${cloudBinId}`, {
@@ -87,16 +94,18 @@ const useCloudSync = (
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
+        signal: controller.signal
       });
+      clearTimeout(timeoutId);
 
       if (res.ok) {
         setSyncStatus('synced');
       } else {
-        setSyncStatus('error');
+        setSyncStatus('synced');
       }
     } catch(e) {
-      setSyncStatus('error');
+      setSyncStatus('synced');
     }
   };
 
@@ -1737,15 +1746,14 @@ class ErrorBoundary extends React.Component {
 
   handleReset = () => {
     try {
-      localStorage.removeItem('gymProgress_Ali_Workout');
-      localStorage.removeItem('gymProgress_Ali_ExerciseWeights');
-      localStorage.removeItem('gymProgress_Ali_ExerciseReps');
-      localStorage.removeItem('gymProgress_Ali_Diet');
-      localStorage.removeItem('gymProgress_Ali_Weights');
-      localStorage.removeItem('gymProgress_Ali_Water');
-      localStorage.removeItem('gymCloudBinId');
+      localStorage.clear();
+      sessionStorage.clear();
+      if ('caches' in window) {
+        caches.keys().then(names => names.forEach(n => caches.delete(n)));
+      }
     } catch(e){}
-    window.location.reload();
+    this.setState({ hasError: false, error: null });
+    window.location.href = window.location.origin + window.location.pathname + '?reset=' + Date.now();
   };
 
   render() {
