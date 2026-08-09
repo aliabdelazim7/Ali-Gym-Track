@@ -1,0 +1,26 @@
+{
+  "short_name": "Ali Gym",
+  "name": "Ali Gym Track - لوحة تحكم بشمهندس علي",
+  "icons": [
+    {
+      "src": "/pwa-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/pwa-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#020617",
+  "theme_color": "#020617",
+  "display": "standalone",
+  "orientation": "portrait",
+  "lang": "ar",
+  "dir": "rtl",
+  "description": "تطبيق علي جيم تراك المطور لمتابعة التمارين، البدائل، التغذية، والأوزان بدون إنترنت"
+}

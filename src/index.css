@@ -1,0 +1,110 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-arabic: 'Cairo', system-ui, -apple-system, sans-serif;
+    --font-sans: 'Plus Jakarta Sans', 'Cairo', system-ui, -apple-system, sans-serif;
+  }
+
+  body {
+    font-family: var(--font-arabic);
+    background-color: #020617; /* OLED Deep Obsidian */
+    color: #f8fafc;
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+.font-arabic {
+  font-family: var(--font-arabic);
+}
+
+.font-sans {
+  font-family: var(--font-sans);
+}
+
+/* Mobile Safe Area Insets */
+.pb-safe {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+.pt-safe {
+  padding-top: max(1rem, env(safe-area-inset-top));
+}
+.mb-safe {
+  margin-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+/* Custom Scrollbar */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #020617;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}
+
+/* Cyberpunk Glassmorphism Panels */
+.cyber-panel {
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(59, 130, 246, 0.15);
+}
+
+.cyber-card {
+  background: rgba(30, 41, 59, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* High-Contrast Glow Effects */
+.glow-orange {
+  box-shadow: 0 0 25px -5px rgba(249, 115, 22, 0.4);
+}
+
+.glow-emerald {
+  box-shadow: 0 0 25px -5px rgba(34, 197, 94, 0.4);
+}
+
+.glow-blue {
+  box-shadow: 0 0 25px -5px rgba(59, 130, 246, 0.4);
+}
+
+.glow-purple {
+  box-shadow: 0 0 25px -5px rgba(168, 85, 247, 0.4);
+}
+
+/* Touch Ergonomics - Active Press */
+.active-press:active {
+  transform: scale(0.96);
+  transition: transform 0.1s ease;
+}
+
+/* Neon Pulse Animation */
+@keyframes neonPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.02); }
+}
+
+.animate-neon {
+  animation: neonPulse 2s infinite ease-in-out;
+}
