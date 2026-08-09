@@ -1493,26 +1493,6 @@ export default function App() {
     <div className="min-h-screen bg-slate-950 text-slate-100 font-sans p-4 sm:p-6 pb-32" dir="rtl">
       
       <header className="max-w-3xl mx-auto mb-4 font-arabic">
-        {/* PWA Install Banner for Mobile */}
-        {showInstallBanner && (
-          <div className="mb-3 bg-gradient-to-r from-blue-900/60 via-slate-900 to-indigo-900/60 border border-blue-500/40 rounded-2xl p-3 shadow-lg flex items-center justify-between gap-2 animate-in slide-in-from-top-4 duration-300">
-            <div className="flex items-center gap-2.5">
-              <span className="bg-blue-500/20 text-blue-400 p-2 rounded-xl border border-blue-500/30 shrink-0">
-                <Smartphone className="w-5 h-5" />
-              </span>
-              <div>
-                <h4 className="text-xs font-bold text-white">تثبيت تطبيق علي جيم تراك 📱</h4>
-                <p className="text-[11px] text-slate-300">استخدام سريع أوفلاين كـ App من الشاشة الرئيسية بدون إنترنت</p>
-              </div>
-            </div>
-            <button
-              onClick={handleInstallPWA}
-              className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-bold px-3 py-2 rounded-xl shadow-md shrink-0 active-press"
-            >
-              تثبيت الآن
-            </button>
-          </div>
-        )}
         <div className="flex justify-between items-center mb-3">
           <div className="flex items-center gap-3">
             <span className="bg-gradient-to-tr from-orange-600 to-amber-500 text-white p-2.5 rounded-2xl shadow-lg shadow-orange-950/50 glow-orange">
@@ -1523,9 +1503,6 @@ export default function App() {
                 <h1 className="text-xl sm:text-2xl font-black text-white tracking-tight">
                   لوحة تحكم البشمهندس علي
                 </h1>
-                <span className="text-[10px] bg-orange-500/20 text-orange-400 px-2 py-0.5 rounded-full border border-orange-500/30 font-bold">
-                  🔥 14 يوم متواصل
-                </span>
               </div>
               <p className="text-xs text-slate-400 font-medium flex items-center gap-1.5 mt-0.5">
                 <Calendar className="w-3.5 h-3.5 text-blue-400" />
