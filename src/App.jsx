@@ -51,11 +51,11 @@ const useCloudSync = (
       });
       if (res.ok) {
         const data = await res.json();
-        if (data.workoutProgress) setWorkoutProgress(data.workoutProgress);
-        if (data.exerciseWeights) setExerciseWeights(data.exerciseWeights);
-        if (data.exerciseReps) setExerciseReps(data.exerciseReps);
-        if (data.dietProgress) setDietProgress(data.dietProgress);
-        if (data.waterGlasses !== undefined) setWaterGlasses(data.waterGlasses);
+        if (data.workoutProgress && typeof data.workoutProgress === 'object') setWorkoutProgress(data.workoutProgress);
+        if (data.exerciseWeights && typeof data.exerciseWeights === 'object') setExerciseWeights(data.exerciseWeights);
+        if (data.exerciseReps && typeof data.exerciseReps === 'object') setExerciseReps(data.exerciseReps);
+        if (data.dietProgress && typeof data.dietProgress === 'object') setDietProgress(data.dietProgress);
+        if (typeof data.waterGlasses === 'number') setWaterGlasses(data.waterGlasses);
         if (Array.isArray(data.weightLogs) && data.weightLogs.length > 0) setWeightLogs(data.weightLogs);
         setSyncStatus('synced');
       } else {
@@ -372,7 +372,7 @@ const SmartWatchFullTab = ({ soundEnabled, triggerHaptic }) => {
             <Activity className="w-5 h-5 text-emerald-400" />
           </div>
           <div className="flex items-baseline gap-2 my-2">
-            <span className="text-3xl font-black text-emerald-400 font-mono tracking-tight">{stepCount.toLocaleString('ar-EG')}</span>
+            <span className="text-3xl font-black text-emerald-400 font-mono tracking-tight">{(stepCount || 0).toLocaleString('ar-EG')}</span>
             <span className="text-xs text-slate-400 font-bold">خطوة</span>
           </div>
           <div className="space-y-1">
@@ -1737,7 +1737,13 @@ class ErrorBoundary extends React.Component {
 
   handleReset = () => {
     try {
-      localStorage.clear();
+      localStorage.removeItem('gymProgress_Ali_Workout');
+      localStorage.removeItem('gymProgress_Ali_ExerciseWeights');
+      localStorage.removeItem('gymProgress_Ali_ExerciseReps');
+      localStorage.removeItem('gymProgress_Ali_Diet');
+      localStorage.removeItem('gymProgress_Ali_Weights');
+      localStorage.removeItem('gymProgress_Ali_Water');
+      localStorage.removeItem('gymCloudBinId');
     } catch(e){}
     window.location.reload();
   };
@@ -1921,17 +1927,17 @@ function MainApp() {
 
   const currentWorkout = initialWorkoutPlan.find(d => d.day === activeDay);
   const totalWorkoutSets = currentWorkout?.exercises?.reduce((acc, ex) => acc + ex.sets, 0) || 0;
-  const completedWorkoutSets = currentWorkout?.exercises?.reduce((acc, ex) => acc + (workoutProgress[ex.id] || 0), 0) || 0;
+  const completedWorkoutSets = currentWorkout?.exercises?.reduce((acc, ex) => acc + ((workoutProgress || {})[ex.id] || 0), 0) || 0;
   
   const totalMeals = dietPlan.meals.length;
-  const completedMeals = Object.values(dietProgress).filter(Boolean).length;
+  const completedMeals = Object.values(dietProgress || {}).filter(Boolean).length;
 
   const totalTasks = totalWorkoutSets + totalMeals;
   const completedTasks = completedWorkoutSets + completedMeals;
   const progressPercentage = totalTasks === 0 ? 0 : Math.round((completedTasks / totalTasks) * 100);
 
   const totalVolumeThisWeek = useMemo(() => {
-    return weightLogs.reduce((acc, l) => acc + (l.weight * l.reps), 0);
+    return (Array.isArray(weightLogs) ? weightLogs : []).reduce((acc, l) => acc + ((l?.weight || 0) * (l?.reps || 0)), 0);
   }, [weightLogs]);
 
   const [timerLeft, setTimerLeft] = useState(0);
