@@ -655,36 +655,34 @@ const playBeepSound = () => {
 const UnbreakableAnimation = ({ altId }) => {
   const [frame, setFrame] = useState(0);
   const [useFallback, setUseFallback] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
-  // Smooth 700ms exercise motion loop between frame 0 and frame 1
+  // Fast smooth 500ms exercise repetition pace
   useEffect(() => {
     const timer = setInterval(() => {
       setFrame(prev => (prev === 0 ? 1 : 0));
-    }, 700);
+    }, 500);
     return () => clearInterval(timer);
   }, []);
 
-  const baseAltId = altId ? altId.split('-').slice(0, 2).join('-') : 'd1-e1';
-  const currentImgSrc = useFallback 
-    ? `/exercises/${baseAltId}-main-${frame}.jpg` 
-    : `/exercises/${altId}-${frame}.jpg`;
+  const safeAltId = altId || 'd1-e1-main';
+  const baseAltId = safeAltId.split('-').slice(0, 2).join('-');
+
+  const imgSrc0 = useFallback ? `/exercises/${baseAltId}-main-0.jpg` : `/exercises/${safeAltId}-0.jpg`;
+  const imgSrc1 = useFallback ? `/exercises/${baseAltId}-main-1.jpg` : `/exercises/${safeAltId}-1.jpg`;
+  const currentImgSrc = frame === 0 ? imgSrc0 : imgSrc1;
 
   return (
     <div className="relative flex justify-center items-center w-full min-h-[180px] bg-slate-950 rounded-2xl p-2 overflow-hidden border border-slate-800 shadow-inner">
-      {isLoading && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-950/90 z-10">
-          <div className="w-6 h-6 border-2 border-orange-500 border-t-transparent rounded-full animate-spin mb-1"></div>
-          <span className="text-[10px] text-slate-400 font-arabic">جاري تحميل الحركة...</span>
-        </div>
-      )}
+      {/* Hidden Preloaders to eliminate image load flickering on mobile */}
+      <img src={imgSrc0} className="hidden" alt="" />
+      <img src={imgSrc1} className="hidden" alt="" />
+
+      {/* Persistent <img> without key unmounting for 60fps smooth animation */}
       <img 
-        key={currentImgSrc}
         src={currentImgSrc} 
-        alt={altId} 
-        onLoad={() => setIsLoading(false)}
+        alt={safeAltId} 
         onError={() => setUseFallback(true)}
-        className={`max-h-48 object-contain transition-opacity duration-150 rounded-lg ${isLoading ? 'opacity-0' : 'opacity-100'}`}
+        className="max-h-48 object-contain rounded-lg opacity-100 transition-all duration-150 select-none"
       />
     </div>
   );
