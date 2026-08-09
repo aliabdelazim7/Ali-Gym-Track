@@ -1569,14 +1569,17 @@ function MainApp() {
       <header className="max-w-3xl mx-auto mb-4 font-arabic">
         <div className="flex justify-between items-center mb-3">
           <div className="flex items-center gap-3">
-            <span className="bg-gradient-to-tr from-orange-600 to-amber-500 text-white p-2.5 rounded-2xl shadow-lg shadow-orange-950/50 glow-orange">
-              <Dumbbell className="w-6 h-6" />
+            <span className="bg-gradient-to-tr from-orange-600 via-amber-500 to-emerald-500 text-white p-2 rounded-2xl shadow-xl shadow-orange-950/60 glow-orange flex items-center justify-center border border-amber-400/30">
+              <img src="/favicon.svg" className="w-7 h-7 object-contain" alt="Ali Gym Tracker" />
             </span>
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="text-xl sm:text-2xl font-black text-white tracking-tight">
-                  لوحة تحكم البشمهندس علي
+                <h1 className="text-xl sm:text-2xl font-black text-white tracking-tight font-sans">
+                  Ali Gym Tracker
                 </h1>
+                <span className="text-[10px] bg-gradient-to-r from-orange-500/20 to-emerald-500/20 text-orange-400 px-2 py-0.5 rounded-full border border-orange-500/30 font-bold">
+                  علي جيم تراك ⚡
+                </span>
               </div>
               <p className="text-xs text-slate-400 font-medium flex items-center gap-1.5 mt-0.5">
                 <Calendar className="w-3.5 h-3.5 text-blue-400" />

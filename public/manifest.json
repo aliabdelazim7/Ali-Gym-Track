@@ -1,17 +1,11 @@
 {
-  "short_name": "Ali Gym",
-  "name": "Ali Gym Track - لوحة تحكم بشمهندس علي",
+  "short_name": "Ali Gym Tracker",
+  "name": "Ali Gym Tracker - نظام هندسة التمرين للبشمهندس علي",
   "icons": [
     {
-      "src": "/pwa-192.png",
-      "type": "image/png",
-      "sizes": "192x192",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/pwa-512.png",
-      "type": "image/png",
-      "sizes": "512x512",
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
       "purpose": "any maskable"
     }
   ],
@@ -22,5 +16,5 @@
   "orientation": "portrait",
   "lang": "ar",
   "dir": "rtl",
-  "description": "تطبيق علي جيم تراك المطور لمتابعة التمارين، البدائل، التغذية، والأوزان بدون إنترنت"
+  "description": "تطبيق علي جيم تراك المطور لمتابعة التمارين، البدائل، التغذية، والأوزان"
 }
