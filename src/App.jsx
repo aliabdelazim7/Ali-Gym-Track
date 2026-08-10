@@ -42,7 +42,7 @@ const formatArabicDate = (dateKey) => {
 };
 
 // ================= REAL-TIME CLOUD SYNC ENGINE (100% UNIVERSAL STATE) =================
-const DEFAULT_CLOUD_BIN_ID = "019fe604-c535-71a6-a516-7877bb05e289";
+const DEFAULT_CLOUD_BIN_ID = "019febb5-c70b-730c-8fb4-1227a57998ac";
 
 const useCloudSync = (
   workoutProgress, setWorkoutProgress,
@@ -1597,6 +1597,31 @@ function MainApp() {
   const currentWaterGlasses = waterGlasses[selectedDate] || 0;
 
   const isTodaySelected = selectedDate === todayDateKey;
+  const copyPreviousDayDataToSelected = () => {
+    triggerHaptic();
+    const prevDateKey = getLocalDateKey(new Date(new Date(selectedDate).getTime() - 86400000));
+    
+    setWorkoutProgress(prev => ({
+      ...prev,
+      [selectedDate]: (prev[prevDateKey] && Object.keys(prev[prevDateKey]).length > 0)
+        ? prev[prevDateKey] 
+        : (prev[todayDateKey] || { "d1-e1": 3, "d1-e2": 3 })
+    }));
+    
+    setDietProgress(prev => ({
+      ...prev,
+      [selectedDate]: (prev[prevDateKey] && Object.keys(prev[prevDateKey]).length > 0)
+        ? prev[prevDateKey]
+        : (prev[todayDateKey] || { "breakfast": true })
+    }));
+
+    setWaterGlasses(prev => ({
+      ...prev,
+      [selectedDate]: prev[prevDateKey] || prev[todayDateKey] || 8
+    }));
+
+    alert("تم تعبئة واسترجاع تسجيلات وتمرين هذا اليوم بنجاح! 📋✨");
+  };
 
   const currentDateFormatted = useMemo(() => {
     return formatArabicDate(selectedDate);
