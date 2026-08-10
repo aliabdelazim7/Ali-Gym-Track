@@ -1,4 +1,6 @@
-<!doctype html>
+import fs from 'fs';
+
+const newIndexHtml = `<!doctype html>
 <html lang="ar" dir="rtl">
   <head>
     <meta charset="UTF-8" />
@@ -49,3 +51,7 @@
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
+`;
+
+fs.writeFileSync('e:\\ali-Gym-Track\\index.html', newIndexHtml, 'utf8');
+console.log('Successfully updated index.html with bulletproof auto-healing cache-busting scripts!');
