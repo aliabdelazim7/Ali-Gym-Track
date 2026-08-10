@@ -1598,6 +1598,11 @@ function MainApp() {
 
   const isTodaySelected = selectedDate === todayDateKey;
 
+  const currentDateFormatted = useMemo(() => {
+    return formatArabicDate(selectedDate);
+  }, [selectedDate]);
+
+
   // Date Navigator Helpers
   const shiftDate = (days) => {
     try {
