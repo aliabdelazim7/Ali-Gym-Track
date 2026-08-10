@@ -36,7 +36,7 @@ const formatArabicDate = (dateKey) => {
     const [y, m, d] = dateKey.split('-').map(Number);
     const dateObj = new Date(y, m - 1, d);
     return dateObj.toLocaleDateString('ar-EG', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-  } catch(e) {
+  } catch(_e) {
     return dateKey;
   }
 };
@@ -108,7 +108,7 @@ const useCloudSync = (
           }
         }
       }
-    } catch(e) {
+    } catch(_e) {
       console.log("Cloud sync fetch gracefully bypassed:", e);
     } finally {
       setSyncStatus('synced');
@@ -149,7 +149,7 @@ const useCloudSync = (
       } else {
         setSyncStatus('synced');
       }
-    } catch(e) {
+    } catch(_e) {
       setSyncStatus('synced');
     }
   };
@@ -807,7 +807,7 @@ const messages = {
 // ================= UTILS =================
 const triggerHaptic = () => {
   if (typeof window !== 'undefined' && 'vibrate' in navigator) {
-    try { navigator.vibrate(40); } catch(e){}
+    try { navigator.vibrate(40); } catch(_e){}
   }
 };
 
@@ -825,7 +825,7 @@ const playBeepSound = () => {
     gain.connect(audioCtx.destination);
     osc.start();
     osc.stop(audioCtx.currentTime + 0.5);
-  } catch (e) {}
+  } catch(_e) {}
 };
 
 // ================= 100% OFFLINE EXERCISE MOVEMENT ANIMATION PLAYER =================
@@ -909,7 +909,7 @@ const ErgonomicExerciseCard = ({
       if (index === exercise.sets - 1) {
         try {
           confetti({ particleCount: 50, spread: 70, origin: { y: 0.7 } });
-        } catch(e){}
+        } catch(_e){}
       }
     }
     onSetToggle(exercise.id, index);
@@ -1352,7 +1352,7 @@ const AchievementsView = ({ completedTasksCount, totalVolumeThisWeek, waterGlass
 
   const badges = [
     { id: 1, title: "1000kg Club", desc: "رفع أكثر من 1000 كجم إجمالي حقيقي", icon: Trophy, unlocked: totalVolumeThisWeek >= 1000 },
-    { id: 2, title: "Discipline 100%", desc: "إكمال جميع تمارين اليوم الحقيقية", icon: ShieldCheck, unlocked: completedTasksCount >= 8 && completedTasksCount > 0 },
+    { id: 2, title: "Discipline 100%", desc: "إكمال جميع تمارين اليوم الحقيقية", icon: ShieldCheck, unlocked: completedTasksCount >= 8 },
     { id: 3, title: "Macro Precision", desc: "التزام بكافة وجبات التغذية اليومية", icon: Flame, unlocked: completedTasksCount >= 5 },
     { id: 4, title: "Hydration King", desc: "شرب 8 أكواب مية كاملة", icon: Droplets, unlocked: typeof waterGlasses === 'number' && waterGlasses >= 8 }
   ];
@@ -1471,7 +1471,7 @@ class ErrorBoundary extends React.Component {
       if ('caches' in window) {
         caches.keys().then(names => names.forEach(n => caches.delete(n)));
       }
-    } catch(e){}
+    } catch(_e){}
     this.setState({ hasError: false, error: null });
     window.location.href = window.location.origin + window.location.pathname + '?v=' + Date.now();
   };
@@ -1567,7 +1567,7 @@ const useAppsScriptSync = (
           setAppsScriptStatus('synced');
         }
       }
-    } catch (e) {
+    } catch(_e) {
       console.log("Apps Script fetch error:", e);
       setAppsScriptStatus('error');
     }
@@ -1598,7 +1598,7 @@ const useAppsScriptSync = (
         redirect: 'follow'
       });
       setAppsScriptStatus('synced');
-    } catch (e) {
+    } catch(_e) {
       console.log("Apps script push error:", e);
       setAppsScriptStatus('synced');
     }
@@ -1678,7 +1678,7 @@ function MainApp() {
       const saved = localStorage.getItem(key);
       if (!saved) return {};
       let parsed;
-      try { parsed = JSON.parse(saved); } catch(e) { return {}; }
+      try { parsed = JSON.parse(saved); } catch(_e) { return {}; }
       if (typeof parsed !== 'object' || parsed === null) return {};
       const keys = Object.keys(parsed);
       const hasDateKey = keys.some(k => k.includes('-'));
@@ -1686,7 +1686,7 @@ function MainApp() {
         return { [todayDateKey]: parsed };
       }
       return parsed;
-    } catch(e) {
+    } catch(_e) {
       return {};
     }
   };
@@ -1699,10 +1699,10 @@ function MainApp() {
         const parsed = JSON.parse(saved);
         if (typeof parsed === 'object' && parsed !== null) return parsed;
         return { [todayDateKey]: parseInt(saved, 10) || 0 };
-      } catch(e) {
+      } catch(_e) {
         return { [todayDateKey]: parseInt(saved, 10) || 0 };
       }
-    } catch(e) { return {}; }
+    } catch(_e) { return {}; }
   });
 
   const [workoutProgress, setWorkoutProgress] = useState(() => parseDateIndexedState('gymProgress_Ali_Workout'));
@@ -1715,7 +1715,7 @@ function MainApp() {
       const saved = localStorage.getItem('gymProgress_Ali_Weights');
       const parsed = saved ? JSON.parse(saved) : null;
       return Array.isArray(parsed) ? parsed : [];
-    } catch(e) { return []; }
+    } catch(_e) { return []; }
   });
 
     const appsScriptSync = useAppsScriptSync(
@@ -1798,7 +1798,7 @@ function MainApp() {
       const [y, m, d] = parts;
       const dt = new Date(y, m - 1, d + days);
       setSelectedDate(getLocalDateKey(dt));
-    } catch(e) {
+    } catch(_e) {
       setSelectedDate(getLocalDateKey());
     }
   };
@@ -1814,7 +1814,7 @@ function MainApp() {
     triggerHaptic();
     if (isWakeLockActive) {
       if (wakeLockRef.current) {
-        try { await wakeLockRef.current.release(); } catch(e){}
+        try { await wakeLockRef.current.release(); } catch(_e){}
         wakeLockRef.current = null;
       }
       setIsWakeLockActive(false);
@@ -1823,7 +1823,7 @@ function MainApp() {
         try {
           wakeLockRef.current = await navigator.wakeLock.request('screen');
           setIsWakeLockActive(true);
-        } catch (err) {
+        } catch(_err) {
           alert('وضع الشاشة المضاءة مفعل تلقائياً أو غير مدعوم في متصفحك.');
           setIsWakeLockActive(true);
         }
@@ -1865,9 +1865,9 @@ function MainApp() {
         if (e.key === 'gymProgress_Ali_Diet' && e.newValue) setDietProgress(JSON.parse(e.newValue));
         if (e.key === 'gymProgress_Ali_Workout' && e.newValue) setWorkoutProgress(JSON.parse(e.newValue));
         if (e.key === 'gymProgress_Ali_Water' && e.newValue) {
-          try { setWaterGlasses(JSON.parse(e.newValue)); } catch(err){}
+          try { setWaterGlasses(JSON.parse(e.newValue)); } catch(_err){}
         }
-      } catch(err){}
+      } catch(_err){}
     };
     window.addEventListener('storage', handleStorageChange);
     return () => window.removeEventListener('storage', handleStorageChange);
@@ -1957,7 +1957,7 @@ function MainApp() {
     let msgArray = [];
     if (progressPercentage === 100) {
       msgArray = messages.success;
-      try { confetti({ particleCount: 80, spread: 80, origin: { y: 0.6 } }); } catch(e){}
+      try { confetti({ particleCount: 80, spread: 80, origin: { y: 0.6 } }); } catch(_e){}
     } else if (progressPercentage >= 50) msgArray = messages.average;
     else msgArray = messages.low;
 
@@ -1979,7 +1979,7 @@ function MainApp() {
       }
       localStorage.clear();
       sessionStorage.clear();
-    } catch(e){}
+    } catch(_e){}
     window.location.href = window.location.origin + window.location.pathname + '?v=' + Date.now();
   };
 
@@ -2019,7 +2019,7 @@ function MainApp() {
           if (parsed.weightLogs) setWeightLogs(parsed.weightLogs);
           if (parsed.activeDay) setActiveDay(parsed.activeDay);
           alert("تم استرجاع النسخة الاحتياطية بنجاح! 🚀");
-        } catch (err) {
+        } catch(_err) {
           alert("الملف غير صالح، برجاء اختيار ملف JSON صحيحة.");
         }
       };
