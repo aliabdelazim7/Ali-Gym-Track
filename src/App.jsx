@@ -22,6 +22,25 @@ const YoutubeIcon = ({ className = "w-4 h-4" }) => (
 
 
 
+
+// ================= LOCAL DATE KEY HELPER (PREVENTS TIMEZONE OFFSETS) =================
+const getLocalDateKey = (d = new Date()) => {
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
+const formatArabicDate = (dateKey) => {
+  try {
+    const [y, m, d] = dateKey.split('-').map(Number);
+    const dateObj = new Date(y, m - 1, d);
+    return dateObj.toLocaleDateString('ar-EG', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+  } catch(e) {
+    return dateKey;
+  }
+};
+
 // ================= REAL-TIME CLOUD SYNC ENGINE (100% UNIVERSAL STATE) =================
 const DEFAULT_CLOUD_BIN_ID = "019fe604-c535-71a6-a516-7877bb05e289";
 
@@ -73,9 +92,12 @@ const useCloudSync = (
             setDietProgress(data.dietProgress);
             localStorage.setItem('gymProgress_Ali_Diet', JSON.stringify(data.dietProgress));
           }
-          if (typeof data.waterGlasses === 'number' && !isNaN(data.waterGlasses)) {
+          if (data.waterGlasses && typeof data.waterGlasses === 'object') {
             setWaterGlasses(data.waterGlasses);
-            localStorage.setItem('gymProgress_Ali_Water', data.waterGlasses.toString());
+            localStorage.setItem('gymProgress_Ali_Water', JSON.stringify(data.waterGlasses));
+          } else if (typeof data.waterGlasses === 'number') {
+            const today = getLocalDateKey();
+            setWaterGlasses({ [today]: data.waterGlasses });
           }
           if (Array.isArray(data.weightLogs)) {
             setWeightLogs(data.weightLogs);
@@ -83,30 +105,6 @@ const useCloudSync = (
           }
           if (typeof data.activeDay === 'number' && data.activeDay >= 1 && data.activeDay <= 5) {
             setActiveDay(data.activeDay);
-          }
-          if (typeof data.watchSteps === 'number') {
-            setWatchSteps(data.watchSteps);
-            localStorage.setItem('gymProgress_Ali_WatchSteps', data.watchSteps.toString());
-          }
-          if (typeof data.watchCal === 'number') {
-            setWatchCal(data.watchCal);
-            localStorage.setItem('gymProgress_Ali_WatchCal', data.watchCal.toString());
-          }
-          if (typeof data.watchHR === 'number') {
-            setWatchHR(data.watchHR);
-            localStorage.setItem('gymProgress_Ali_WatchHR', data.watchHR.toString());
-          }
-          if (typeof data.watchMaxHR === 'number') {
-            setWatchMaxHR(data.watchMaxHR);
-            localStorage.setItem('gymProgress_Ali_WatchMaxHR', data.watchMaxHR.toString());
-          }
-          if (typeof data.watchConnected === 'boolean') {
-            setWatchConnected(data.watchConnected);
-            localStorage.setItem('gymProgress_Ali_WatchConnected', data.watchConnected ? 'true' : 'false');
-          }
-          if (typeof data.watchName === 'string') {
-            setWatchName(data.watchName);
-            localStorage.setItem('gymProgress_Ali_WatchName', data.watchName);
           }
         }
       }
@@ -130,7 +128,7 @@ const useCloudSync = (
         exerciseWeights: exerciseWeights || {},
         exerciseReps: exerciseReps || {},
         dietProgress: dietProgress || {},
-        waterGlasses: waterGlasses || 0,
+        waterGlasses: waterGlasses || {},
         weightLogs: Array.isArray(weightLogs) ? weightLogs : [],
         activeDay: activeDay || 1
       };
@@ -1866,6 +1864,83 @@ function MainApp() {
         </div>
       </header>
 
+      {/* Date Navigation Bar & Historical Calendar Picker */}
+      <div className="max-w-3xl mx-auto mb-5 font-arabic">
+        <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-3 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-3">
+          
+          <div className="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-start">
+            <button
+              type="button"
+              onClick={() => shiftDate(-1)}
+              className="bg-slate-950 hover:bg-slate-800 text-slate-200 border border-slate-800 font-bold px-3 py-2 rounded-xl text-xs flex items-center gap-1.5 transition-all active-press"
+              title="اليوم السابق"
+            >
+              <ChevronRight className="w-4 h-4 text-orange-400" />
+              <span>السابق</span>
+            </button>
+
+            <div className="relative flex items-center gap-2 bg-slate-950 px-3 py-1.5 rounded-xl border border-slate-800">
+              <Calendar className="w-4 h-4 text-blue-400 shrink-0" />
+              <input
+                type="date"
+                value={selectedDate}
+                onChange={(e) => {
+                  if (e.target.value) {
+                    triggerHaptic();
+                    setSelectedDate(e.target.value);
+                  }
+                }}
+                className="bg-transparent text-white font-bold text-xs focus:outline-none cursor-pointer font-mono"
+              />
+            </div>
+
+            <button
+              type="button"
+              onClick={() => shiftDate(1)}
+              className="bg-slate-950 hover:bg-slate-800 text-slate-200 border border-slate-800 font-bold px-3 py-2 rounded-xl text-xs flex items-center gap-1.5 transition-all active-press"
+              title="اليوم التالي"
+            >
+              <span>التالي</span>
+              <ChevronLeft className="w-4 h-4 text-orange-400" />
+            </button>
+          </div>
+
+          <div className="flex items-center gap-1.5 w-full sm:w-auto justify-end text-xs">
+            <button
+              type="button"
+              onClick={() => { triggerHaptic(); setSelectedDate(getYesterdayDateKey()); }}
+              className={`px-3 py-1.5 rounded-xl font-bold transition-all text-xs ${selectedDate === getYesterdayDateKey() ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40' : 'bg-slate-950 text-slate-400 hover:text-white border border-slate-800'}`}
+            >
+              أمس
+            </button>
+            <button
+              type="button"
+              onClick={() => { triggerHaptic(); setSelectedDate(todayDateKey); }}
+              className={`px-3 py-1.5 rounded-xl font-bold transition-all text-xs flex items-center gap-1 ${isTodaySelected ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : 'bg-slate-950 text-slate-400 hover:text-white border border-slate-800'}`}
+            >
+              <Target className="w-3.5 h-3.5 text-emerald-400" />
+              <span>اليوم 🎯</span>
+            </button>
+          </div>
+        </div>
+
+        {!isTodaySelected && (
+          <div className="mt-2 bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs px-4 py-2 rounded-xl flex items-center justify-between animate-in fade-in duration-200">
+            <div className="flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-amber-400 shrink-0" />
+              <span>أنت تستعرض وتسجل الآن لتاريخ سابق: <strong className="font-mono text-white">{formatArabicDate(selectedDate)}</strong></span>
+            </div>
+            <button
+              onClick={() => { triggerHaptic(); setSelectedDate(todayDateKey); }}
+              className="text-[11px] underline font-bold hover:text-white shrink-0"
+            >
+              العودة لليوم 🎯
+            </button>
+          </div>
+        )}
+      </div>
+
+
       
 
       <nav className="hidden md:flex max-w-3xl mx-auto mb-6 bg-slate-900/90 p-1.5 rounded-2xl gap-1 border border-slate-800 font-arabic shadow-inner">
@@ -1964,9 +2039,9 @@ function MainApp() {
                         <ErgonomicExerciseCard 
                           key={exercise.id}
                           exercise={exercise}
-                          completedSets={workoutProgress[exercise.id] || 0}
-                          exerciseWeights={exerciseWeights}
-                          exerciseReps={exerciseReps}
+                          completedSets={currentWorkoutProgress[exercise.id] || 0}
+                          exerciseWeights={currentExerciseWeights}
+                          exerciseReps={currentExerciseReps}
                           onSetToggle={handleSetToggle}
                           onWeightChange={handleWeightChange}
                           onRepsChange={handleRepsChange}
@@ -2030,7 +2105,7 @@ function MainApp() {
                 </div>
                 <div>
                   <h4 className="text-xs font-bold text-white">شرب المياه اليومي</h4>
-                  <p className="text-[11px] text-slate-400">{waterGlasses} من 8 أكواب (2.5 لتر)</p>
+                  <p className="text-[11px] text-slate-400">{currentWaterGlasses} من 8 أكواب (2.5 لتر)</p>
                 </div>
               </div>
 
@@ -2040,10 +2115,10 @@ function MainApp() {
                     key={i}
                     onClick={() => {
                       triggerHaptic();
-                      setWaterGlasses(i + 1 === waterGlasses ? i : i + 1);
+                      handleWaterChange(i + 1 === currentWaterGlasses ? i : i + 1);
                     }}
                     className={`w-6 h-8 rounded-md transition-all ${
-                      i < waterGlasses ? 'bg-blue-500 border border-blue-300' : 'bg-slate-800 border border-slate-700'
+                      i < currentWaterGlasses ? 'bg-blue-500 border border-blue-300' : 'bg-slate-800 border border-slate-700'
                     }`}
                   />
                 ))}
@@ -2051,7 +2126,7 @@ function MainApp() {
             </div>
 
             {dietPlan.meals.map((meal) => {
-              const isDone = dietProgress[meal.id];
+              const isDone = currentDietProgress[meal.id];
               const Icon = meal.icon;
               return (
                 <div key={meal.id} className={`relative bg-slate-900/90 rounded-2xl p-4 border shadow-sm transition-all duration-300 ${isDone ? 'border-emerald-500/50 bg-slate-950/70' : 'border-slate-800'}`}>
