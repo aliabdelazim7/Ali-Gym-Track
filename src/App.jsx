@@ -1966,6 +1966,35 @@ function MainApp() {
     setShowEvalModal(true);
   };
 
+    const handleResetAllData = async () => {
+    triggerHaptic();
+    if (!window.confirm("⚠️ هل أنت تأكد من رغبتك في تصفير كافة البيانات والبدء من الجديد كلياً؟\nسسيتم مسح كافة التمارين والأوزان والتغذية المسجلة من المتصفح والسحابة وشيت جوجل.")) {
+      return;
+    }
+
+    const emptyObj = {};
+    const emptyArr = [];
+
+    setWorkoutProgress(emptyObj);
+    setExerciseWeights(emptyObj);
+    setExerciseReps(emptyObj);
+    setDietProgress(emptyObj);
+    setWaterGlasses(emptyObj);
+    setWeightLogs(emptyArr);
+    setActiveDay(1);
+
+    try {
+      localStorage.removeItem('gymProgress_Ali_Workout');
+      localStorage.removeItem('gymProgress_Ali_ExerciseWeights');
+      localStorage.removeItem('gymProgress_Ali_ExerciseReps');
+      localStorage.removeItem('gymProgress_Ali_Diet');
+      localStorage.removeItem('gymProgress_Ali_Water');
+      localStorage.removeItem('gymProgress_Ali_Weights');
+    } catch(_e){}
+
+    alert("تم تصفير الداتا بنجاح! يمكنك الآن بدء تسجيل تمرينك وتغذيتك الحقيقية من الجديد. 🚀");
+  };
+
   const handleClearBrowserCache = async () => {
     triggerHaptic();
     try {
