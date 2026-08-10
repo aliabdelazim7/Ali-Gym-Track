@@ -1473,7 +1473,7 @@ class ErrorBoundary extends React.Component {
       }
     } catch(e){}
     this.setState({ hasError: false, error: null });
-    window.location.href = window.location.origin + window.location.pathname + '?reset=' + Date.now();
+    window.location.href = window.location.origin + window.location.pathname + '?v=' + Date.now();
   };
 
   render() {
