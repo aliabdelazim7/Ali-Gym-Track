@@ -1520,7 +1520,7 @@ const useAppsScriptSync = (
   triggerHaptic
 ) => {
   const [appsScriptUrl, setAppsScriptUrl] = useState(() => {
-    return localStorage.getItem('gymAppsScriptUrl') || '';
+    return localStorage.getItem('gymAppsScriptUrl') || "https://script.google.com/macros/s/AKfycbzbib8mglWxUhFt63mk798-Evdz2GEQy2nqy9zkzPhxMJNOe95yeCWChJDRJFyGmbJ7Bw/exec";
   });
   const [appsScriptStatus, setAppsScriptStatus] = useState('idle'); // 'idle' | 'syncing' | 'synced' | 'error'
   const [showAppsScriptModal, setShowAppsScriptModal] = useState(false);
