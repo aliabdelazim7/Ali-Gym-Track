@@ -1,4 +1,7 @@
-const initialWorkoutPlan = [
+import fs from 'fs';
+
+// 1. Define the updated initialWorkoutPlan array code string
+const updatedWorkoutPlanCode = `const initialWorkoutPlan = [
   {
     day: 1,
     title: "Upper Body (تركيز سمك الضهر والصدر العالي)",
@@ -496,6 +499,96 @@ const initialWorkoutPlan = [
     image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=800&q=80",
     exercises: []
   }
-];
+];`;
 
-export default initialWorkoutPlan;
+// 2. Define the updated dietPlan code string
+const updatedDietPlanCode = `const dietPlan = {
+  goal: "4000 سعرة حرارية (وقود التضخيم الشرس الاقتصادي)",
+  macros: { protein: 185, carbs: 520, fats: 110 },
+  strategy: "تضخيم شرس اقتصادي بحيل ذكية لتسهيل الهضم وزيادة السعرات بدون معاناة للمعدة.",
+  meals: [
+    { 
+      id: "meal-1", 
+      title: "وجبة 1 (الفطار)", 
+      subtitle: "طاقة وسعرات اقتصادية للصباح",
+      icon: Coffee, 
+      color: "text-orange-400", 
+      bg: "bg-orange-950/40", 
+      base: "2 ساندوتش جبنة قريش (مضروبة بمعلقتين زيت زيتون أو حار) + 2 ساندوتش حلاوة طحينية (عيش بلدي).", 
+      alts: ["البديل السريع: 3 باتيه بالجبنة + علبة لبن رايب كبيرة."] 
+    },
+    { 
+      id: "meal-2", 
+      title: "وجبة 2 (وأنت بتكتب كود)", 
+      subtitle: "المشروب السريع عالي السعرات",
+      icon: Laptop, 
+      color: "text-blue-400", 
+      bg: "bg-blue-950/40", 
+      base: "المشروب السريع: خلاط (مياه + معلقتين كبار لبن بودرة + 100 جرام شوفان + موزة + كاكاو).", 
+      alts: ["البديل (بدون خلاط): 3 ساندوتشات عيش بلدي بزبدة الفول السوداني والموز."] 
+    },
+    { 
+      id: "meal-3", 
+      title: "وجبة 3 (غداء الشارع)", 
+      subtitle: "سعرات ثقيلة وسريعة",
+      icon: Briefcase, 
+      color: "text-amber-400", 
+      bg: "bg-amber-950/40", 
+      base: "علبة كشري 'دبل' تقيلة مع تقلية وزيت، أو 4 ساندوتشات فول وطعمية بالزيت.", 
+      alts: ["البديل: 2 رغيف حواوشي أو 3 ساندوتشات كبدة وسجق."] 
+    },
+    { 
+      id: "meal-4", 
+      title: "وجبة 4 (قبل الجيم بـ 45 دقيقة)", 
+      subtitle: "البري وورك أوت الطبيعي",
+      icon: Zap, 
+      color: "text-yellow-400", 
+      bg: "bg-yellow-950/40", 
+      base: "معلقتين كبار من برطمان (العسل والمكسرات وبذور اليقطين).", 
+      alts: ["البديل: كيس عصير قصب عريض + بسكويت بالعجوة."] 
+    },
+    { 
+      id: "meal-5", 
+      title: "وجبة 5 (بعد الجيم / غداء البيت)", 
+      subtitle: "الريكفري والبناء الشرس",
+      icon: Activity, 
+      color: "text-emerald-400", 
+      bg: "bg-emerald-950/40", 
+      base: "جبل الرز المصري (طبقين كبار وعليهم معلقة سمنة أو زيت) + البروتين المتاح (فراخ، لحمة، سمك، أو بطاطس مهروسة بالمرقة).", 
+      alts: ["البديل: طبق مكرونة ضخم بالصلصة والزيت + 3 بيضات مسلوقة."] 
+    },
+    { 
+      id: "meal-6", 
+      title: "وجبة 6 (قبل النوم)", 
+      subtitle: "تغلق اليوم بإنعاش عضلاتي",
+      icon: Moon, 
+      color: "text-indigo-400", 
+      bg: "bg-indigo-950/40", 
+      base: "معلقتين كبار كمان من برطمان العسل والمكسرات وبذور اليقطين.", 
+      alts: ["البديل: علبة زبادي كبيرة أو كوب لبن دافئ + معلقة عسل."] 
+    }
+  ]
+};`;
+
+// Update src/App.jsx
+let appCode = fs.readFileSync('e:\\ali-Gym-Track\\src\\App.jsx', 'utf8');
+
+// Replace initialWorkoutPlan in App.jsx
+appCode = appCode.replace(
+  /const initialWorkoutPlan = \[\s*\{[\s\S]*?\];\s*const dietPlan =/,
+  updatedWorkoutPlanCode + '\n\nconst dietPlan ='
+);
+
+// Replace dietPlan in App.jsx
+appCode = appCode.replace(
+  /const dietPlan = \{[\s\S]*?\};\s*const initialWeightLogs =/,
+  updatedDietPlanCode + '\n\nconst initialWeightLogs ='
+);
+
+fs.writeFileSync('e:\\ali-Gym-Track\\src\\App.jsx', appCode, 'utf8');
+console.log('App.jsx updated with new Workout & Nutrition plans!');
+
+// Update src/initialWorkoutPlan.js
+const standaloneFileCode = updatedWorkoutPlanCode + '\n\nexport default initialWorkoutPlan;\n';
+fs.writeFileSync('e:\\ali-Gym-Track\\src\\initialWorkoutPlan.js', standaloneFileCode, 'utf8');
+console.log('src/initialWorkoutPlan.js updated!');
