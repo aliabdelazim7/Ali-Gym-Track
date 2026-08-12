@@ -1865,7 +1865,7 @@ const MainApp = () => {
   }, [exerciseWeights]);
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 font-sans p-3 sm:p-5 pb-28 min-w-0" dir="rtl">
+    <div className="min-h-screen bg-slate-950 text-slate-100 font-sans px-3 sm:px-5 pt-11 sm:pt-6 pb-28 min-w-0 pt-[max(2.75rem,env(safe-area-inset-top))]" dir="rtl">
       
       {/* Toast Notification Banner */}
       {toastMessage && (
