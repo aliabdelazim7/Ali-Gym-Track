@@ -1,4 +1,6 @@
-const initialWorkoutPlan = [
+import fs from 'fs';
+
+const updatedWorkoutPlanCode = `const initialWorkoutPlan = [
   {
     day: 1,
     title: "Upper Body (تركيز سمك الضهر والصدر العالي)",
@@ -657,6 +659,20 @@ const initialWorkoutPlan = [
     image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=800&q=80",
     exercises: []
   }
-];
+];`;
 
-export default initialWorkoutPlan;
+// Update App.jsx
+let appCode = fs.readFileSync('e:\\ali-Gym-Track\\src\\App.jsx', 'utf8');
+
+appCode = appCode.replace(
+  /const initialWorkoutPlan = \[\s*\{[\s\S]*?\];\s*const dietPlan =/,
+  updatedWorkoutPlanCode + '\n\nconst dietPlan ='
+);
+
+fs.writeFileSync('e:\\ali-Gym-Track\\src\\App.jsx', appCode, 'utf8');
+console.log('App.jsx updated with Plank & Ab Wheel on all 4 workout days!');
+
+// Update src/initialWorkoutPlan.js
+const standaloneFileCode = updatedWorkoutPlanCode + '\n\nexport default initialWorkoutPlan;\n';
+fs.writeFileSync('e:\\ali-Gym-Track\\src\\initialWorkoutPlan.js', standaloneFileCode, 'utf8');
+console.log('src/initialWorkoutPlan.js updated!');

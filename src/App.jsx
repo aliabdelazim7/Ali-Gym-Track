@@ -207,7 +207,7 @@ const initialWorkoutPlan = [
     day: 1,
     title: "Upper Body (تركيز سمك الضهر والصدر العالي)",
     arabicTitle: "جزء علوي (سمك الضهر + صدر عالي)",
-    goal: "أوزان تقيلة نسبياً (8-12 عدة) مع الوصول للفشل العضلي أو قبله بعدة واحدة (RPE 8-9).",
+    goal: "أوزان تقيلة نسبياً (8-12 عدة) مع الوصول للفشل العضلي أو قبله بعدة واحدة (RPE 8-9) + ثبات وكور.",
     image: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=800&q=80",
     exercises: [
       { 
@@ -324,6 +324,52 @@ const initialWorkoutPlan = [
             githubFolder: "Dips_-_Triceps_Version"
           }
         ]
+      },
+      {
+        id: "d1-e6", name: "Plank", type: "ثبات كور", sets: 3, reps: "45-60ث", defaultWeight: 0, notes: "قوة البطن وثبات الحوض والقطنية.",
+        alts: [
+          { 
+            id: "d1-e6-main", name: "Standard Elbow Plank", arabicName: "بلانك ثبات على الكوع (الرئيسي)", equipment: "مات أرضي", whyUseIt: "يقوي عضلات البطن العميقة واستقرار الجذع والحوض.", defaultWeight: 0, defaultReps: "45-60ث",
+            dos: ["خلي جسمك في خط مستقيم من الرأس إلى الكعبين.", "شد عضلات البطن والمؤخرة بقوة أثناء الثبات."],
+            donts: ["نزول الحوض لأسفل (يسبب ضغط على القطنية).", "رفع الحوض لأعلى كشكل الخيمة."],
+            githubFolder: "Plank"
+          },
+          { 
+            id: "d1-e6-alt1", name: "Side Plank", arabicName: "بلانك جانبي Side Plank (بديل 1)", equipment: "مات أرضي", whyUseIt: "يقوي عضلات البطن الجانبية (Obliques) وثبات الفخذ.", defaultWeight: 0, defaultReps: "30ث لكل جانب",
+            dos: ["ارتكز على كوع واحد وجانب القدم واجعل جسمك مستقيماً.", "ارفع حوضك لأعلى واثبت في موضع مرتفع."],
+            donts: ["سقوط الحوض باتجاه الأرض.", "لف الكتف العلوي للأمام."],
+            githubFolder: "Side_Plank"
+          },
+          { 
+            id: "d1-e6-alt2", name: "High Plank on Hands", arabicName: "بلانك عالي على الكفين (بديل 2)", equipment: "مات أرضي", whyUseIt: "ثبات كامل للجذع والكتفين وعضلات البطن.", defaultWeight: 0, defaultReps: "45-60ث",
+            dos: ["ضع يديك تحت الكتفين مباشرة.", "ثبت الحوض واعتصر البطن."],
+            donts: ["تقوس أسفل الظهر لأسفل.", "ثني الكوعين."],
+            githubFolder: "Plank"
+          }
+        ]
+      },
+      {
+        id: "d1-e7", name: "Ab Wheel Rollout", type: "عجلة البطن", sets: 3, reps: "10-12", defaultWeight: 0, notes: "أقوى تمرين انقباض واستطالة لعضلات البطن والجذع.",
+        alts: [
+          { 
+            id: "d1-e7-main", name: "Ab Wheel Rollout", arabicName: "عجلة البطن Ab Wheel (الرئيسي)", equipment: "عجلة بطن", whyUseIt: "تمرين متقدم يبني قوة انقباض وانبساط فائقة لعضلات البطن.", defaultWeight: 0, defaultReps: "10-12",
+            dos: ["انزل بالعجلة للأمام ببطء مع تثبيت القطنية والجذع.", "ارجع باستخدام عضلات بطنك وليس بسحب ذراعيك."],
+            donts: ["ترك الظهر السفلي يسقط ويتقوس لأسفل.", "الفرد الزائد عن قدرة عضلات بطنك."],
+            githubFolder: "Ab_Roller"
+          },
+          { 
+            id: "d1-e7-alt1", name: "Barbell Ab Rollout", arabicName: "عجلة البطن بالبار (بديل 1)", equipment: "بار مستقيم + طارات", whyUseIt: "بديل ممتاز بالبار لبناء القوة والتحكم في البطن والجذع.", defaultWeight: 0, defaultReps: "10-12",
+            dos: ["دحرج البار للأمام بجذع مفرود ومشدود.", "ارجع بعصر عضلات البطن."],
+            donts: ["تقوس الظهر لأسفل.", "الإسراع دون تحكم."],
+            githubFolder: "Ab_Roller"
+          },
+          { 
+            id: "d1-e7-alt2", name: "Swiss Ball Rollout", arabicName: "عجلة البطن على الكرة السويسرية (بديل 2)", equipment: "كرة سويسرية Swiss Ball", whyUseIt: "ثبات عالٍ وسهل الأداء لحماية أسفل الظهر.", defaultWeight: 0, defaultReps: "12-15",
+            dos: ["ضع الساعدين على الكرة وادفع للقدام ببطء.", "ارجع بعصر عضلات البطن."],
+            donts: ["سقوط الحوض لأسفل.", "شد الرقبة."],
+            githubFolder: "Exercise_Ball_Hamstring_Curl"
+          }
+        ]
       }
     ]
   },
@@ -331,7 +377,7 @@ const initialWorkoutPlan = [
     day: 2,
     title: "Lower Body (تأسيس الماكينة)",
     arabicTitle: "رجلين (تأسيس أوزان)",
-    goal: "أوزان تقيلة وأمان لضهرك لضخ دماء وتضخيم الرجلين.",
+    goal: "أوزان تقيلة وأمان لضهرك لضخ دماء وتضخيم الرجلين + كور وبلانك.",
     image: "https://images.unsplash.com/photo-1434682881908-b43d0467b798?auto=format&fit=crop&w=800&q=80",
     exercises: [
       { 
@@ -425,6 +471,52 @@ const initialWorkoutPlan = [
             githubFolder: "Calf_Press_On_The_Leg_Press_Machine"
           }
         ]
+      },
+      {
+        id: "d2-e5", name: "Plank", type: "ثبات كور", sets: 3, reps: "45-60ث", defaultWeight: 0, notes: "قوة البطن وثبات الحوض والقطنية.",
+        alts: [
+          { 
+            id: "d2-e5-main", name: "Standard Elbow Plank", arabicName: "بلانك ثبات على الكوع (الرئيسي)", equipment: "مات أرضي", whyUseIt: "يقوي عضلات البطن العميقة واستقرار الجذع والحوض.", defaultWeight: 0, defaultReps: "45-60ث",
+            dos: ["خلي جسمك في خط مستقيم من الرأس إلى الكعبين.", "شد عضلات البطن والمؤخرة بقوة أثناء الثبات."],
+            donts: ["نزول الحوض لأسفل (يسبب ضغط على القطنية).", "رفع الحوض لأعلى كشكل الخيمة."],
+            githubFolder: "Plank"
+          },
+          { 
+            id: "d2-e5-alt1", name: "Side Plank", arabicName: "بلانك جانبي Side Plank (بديل 1)", equipment: "مات أرضي", whyUseIt: "يقوي عضلات البطن الجانبية (Obliques) وثبات الفخذ.", defaultWeight: 0, defaultReps: "30ث لكل جانب",
+            dos: ["ارتكز على كوع واحد وجانب القدم واجعل جسمك مستقيماً.", "ارفع حوضك لأعلى واثبت في موضع مرتفع."],
+            donts: ["سقوط الحوض باتجاه الأرض.", "لف الكتف العلوي للأمام."],
+            githubFolder: "Side_Plank"
+          },
+          { 
+            id: "d2-e5-alt2", name: "High Plank on Hands", arabicName: "بلانك عالي على الكفين (بديل 2)", equipment: "مات أرضي", whyUseIt: "ثبات كامل للجذع والكتفين وعضلات البطن.", defaultWeight: 0, defaultReps: "45-60ث",
+            dos: ["ضع يديك تحت الكتفين مباشرة.", "ثبت الحوض واعتصر البطن."],
+            donts: ["تقوس أسفل الظهر لأسفل.", "ثني الكوعين."],
+            githubFolder: "Plank"
+          }
+        ]
+      },
+      {
+        id: "d2-e6", name: "Ab Wheel Rollout", type: "عجلة البطن", sets: 3, reps: "10-12", defaultWeight: 0, notes: "أقوى تمرين انقباض واستطالة لعضلات البطن والجذع.",
+        alts: [
+          { 
+            id: "d2-e6-main", name: "Ab Wheel Rollout", arabicName: "عجلة البطن Ab Wheel (الرئيسي)", equipment: "عجلة بطن", whyUseIt: "تمرين متقدم يبني قوة انقباض وانبساط فائقة لعضلات البطن.", defaultWeight: 0, defaultReps: "10-12",
+            dos: ["انزل بالعجلة للأمام ببطء مع تثبيت القطنية والجذع.", "ارجع باستخدام عضلات بطنك وليس بسحب ذراعيك."],
+            donts: ["ترك الظهر السفلي يسقط ويتقوس لأسفل.", "الفرد الزائد عن قدرة عضلات بطنك."],
+            githubFolder: "Ab_Roller"
+          },
+          { 
+            id: "d2-e6-alt1", name: "Barbell Ab Rollout", arabicName: "عجلة البطن بالبار (بديل 1)", equipment: "بار مستقيم + طارات", whyUseIt: "بديل ممتاز بالبار لبناء القوة والتحكم في البطن والجذع.", defaultWeight: 0, defaultReps: "10-12",
+            dos: ["دحرج البار للأمام بجذع مفرود ومشدود.", "ارجع بعصر عضلات البطن."],
+            donts: ["تقوس الظهر لأسفل.", "الإسراع دون تحكم."],
+            githubFolder: "Ab_Roller"
+          },
+          { 
+            id: "d2-e6-alt2", name: "Swiss Ball Rollout", arabicName: "عجلة البطن على الكرة السويسرية (بديل 2)", equipment: "كرة سويسرية Swiss Ball", whyUseIt: "ثبات عالٍ وسهل الأداء لحماية أسفل الظهر.", defaultWeight: 0, defaultReps: "12-15",
+            dos: ["ضع الساعدين على الكرة وادفع للقدام ببطء.", "ارجع بعصر عضلات البطن."],
+            donts: ["سقوط الحوض لأسفل.", "شد الرقبة."],
+            githubFolder: "Exercise_Ball_Hamstring_Curl"
+          }
+        ]
       }
     ]
   },
@@ -440,7 +532,7 @@ const initialWorkoutPlan = [
     day: 4,
     title: "Upper Body (تركيز عرض الأكتاف والمجنص)",
     arabicTitle: "جزء علوي (عرض أكتاف + مجنص)",
-    goal: "التركيز على عرض الأكتاف والمجنص وعضلات البايسبس والصدر المستوي.",
+    goal: "التركيز على عرض الأكتاف والمجنص وعضلات البايسبس والصدر المستوي + كور وبلانك.",
     image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80",
     exercises: [
       { 
@@ -580,6 +672,52 @@ const initialWorkoutPlan = [
             githubFolder: "EZ-Bar_Curl"
           }
         ]
+      },
+      {
+        id: "d4-e7", name: "Plank", type: "ثبات كور", sets: 3, reps: "45-60ث", defaultWeight: 0, notes: "قوة البطن وثبات الحوض والقطنية.",
+        alts: [
+          { 
+            id: "d4-e7-main", name: "Standard Elbow Plank", arabicName: "بلانك ثبات على الكوع (الرئيسي)", equipment: "مات أرضي", whyUseIt: "يقوي عضلات البطن العميقة واستقرار الجذع والحوض.", defaultWeight: 0, defaultReps: "45-60ث",
+            dos: ["خلي جسمك في خط مستقيم من الرأس إلى الكعبين.", "شد عضلات البطن والمؤخرة بقوة أثناء الثبات."],
+            donts: ["نزول الحوض لأسفل (يسبب ضغط على القطنية).", "رفع الحوض لأعلى كشكل الخيمة."],
+            githubFolder: "Plank"
+          },
+          { 
+            id: "d4-e7-alt1", name: "Side Plank", arabicName: "بلانك جانبي Side Plank (بديل 1)", equipment: "مات أرضي", whyUseIt: "يقوي عضلات البطن الجانبية (Obliques) وثبات الفخذ.", defaultWeight: 0, defaultReps: "30ث لكل جانب",
+            dos: ["ارتكز على كوع واحد وجانب القدم واجعل جسمك مستقيماً.", "ارفع حوضك لأعلى واثبت في موضع مرتفع."],
+            donts: ["سقوط الحوض باتجاه الأرض.", "لف الكتف العلوي للأمام."],
+            githubFolder: "Side_Plank"
+          },
+          { 
+            id: "d4-e7-alt2", name: "High Plank on Hands", arabicName: "بلانك عالي على الكفين (بديل 2)", equipment: "مات أرضي", whyUseIt: "ثبات كامل للجذع والكتفين وعضلات البطن.", defaultWeight: 0, defaultReps: "45-60ث",
+            dos: ["ضع يديك تحت الكتفين مباشرة.", "ثبت الحوض واعتصر البطن."],
+            donts: ["تقوس أسفل الظهر لأسفل.", "ثني الكوعين."],
+            githubFolder: "Plank"
+          }
+        ]
+      },
+      {
+        id: "d4-e8", name: "Ab Wheel Rollout", type: "عجلة البطن", sets: 3, reps: "10-12", defaultWeight: 0, notes: "أقوى تمرين انقباض واستطالة لعضلات البطن والجذع.",
+        alts: [
+          { 
+            id: "d4-e8-main", name: "Ab Wheel Rollout", arabicName: "عجلة البطن Ab Wheel (الرئيسي)", equipment: "عجلة بطن", whyUseIt: "تمرين متقدم يبني قوة انقباض وانبساط فائقة لعضلات البطن.", defaultWeight: 0, defaultReps: "10-12",
+            dos: ["انزل بالعجلة للأمام ببطء مع تثبيت القطنية والجذع.", "ارجع باستخدام عضلات بطنك وليس بسحب ذراعيك."],
+            donts: ["ترك الظهر السفلي يسقط ويتقوس لأسفل.", "الفرد الزائد عن قدرة عضلات بطنك."],
+            githubFolder: "Ab_Roller"
+          },
+          { 
+            id: "d4-e8-alt1", name: "Barbell Ab Rollout", arabicName: "عجلة البطن بالبار (بديل 1)", equipment: "بار مستقيم + طارات", whyUseIt: "بديل ممتاز بالبار لبناء القوة والتحكم في البطن والجذع.", defaultWeight: 0, defaultReps: "10-12",
+            dos: ["دحرج البار للأمام بجذع مفرود ومشدود.", "ارجع بعصر عضلات البطن."],
+            donts: ["تقوس الظهر لأسفل.", "الإسراع دون تحكم."],
+            githubFolder: "Ab_Roller"
+          },
+          { 
+            id: "d4-e8-alt2", name: "Swiss Ball Rollout", arabicName: "عجلة البطن على الكرة السويسرية (بديل 2)", equipment: "كرة سويسرية Swiss Ball", whyUseIt: "ثبات عالٍ وسهل الأداء لحماية أسفل الظهر.", defaultWeight: 0, defaultReps: "12-15",
+            dos: ["ضع الساعدين على الكرة وادفع للقدام ببطء.", "ارجع بعصر عضلات البطن."],
+            donts: ["سقوط الحوض لأسفل.", "شد الرقبة."],
+            githubFolder: "Exercise_Ball_Hamstring_Curl"
+          }
+        ]
       }
     ]
   },
@@ -587,7 +725,7 @@ const initialWorkoutPlan = [
     day: 5,
     title: "Lower Body (لمسات نهائية)",
     arabicTitle: "رجلين (قوة فردية وبطن)",
-    goal: "توازن حركي، قوة فردية، ونحت عضلات البطن والجذع.",
+    goal: "توازن حركي، قوة فردية، ونحت عضلات البطن والجذع + بلانك وعجلة البطن.",
     image: "https://images.unsplash.com/photo-1574680096145-d05b474e2155?auto=format&fit=crop&w=800&q=80",
     exercises: [
       { 
@@ -660,25 +798,48 @@ const initialWorkoutPlan = [
         ]
       },
       { 
-        id: "d5-e4", name: "Hanging Leg Raises", type: "بطن/كور وأنت متعلق", sets: 3, reps: "10", defaultWeight: 0, notes: "قوة الجذع والبطن السفلي من التعلق.", 
+        id: "d5-e4", name: "Plank", type: "ثبات كور", sets: 3, reps: "45-60ث", defaultWeight: 0, notes: "قوة البطن وثبات الحوض والقطنية.",
         alts: [
           { 
-            id: "d5-e4-main", name: "Hanging Leg Raise", arabicName: "بطن سفلي متعلق بالعقلة (الرئيسي)", equipment: "بار عقلة", whyUseIt: "يستهدف عضلات البطن السفلى بامتياز ويزيد قوة القبضة.", defaultWeight: 0, defaultReps: "10",
-            dos: ["تعلق بالعقلة وارفع الساقين باستخدام عضلات البطن حتى 90 درجة.", "انزل بالساقين ببطء لمنع المرجحة."],
-            donts: ["المرجحة بالجسم كشكل البندول (Kipping).", "رفع الساقين بدفع الفخذين فقط."],
-            githubFolder: "Hanging_Leg_Raise"
+            id: "d5-e4-main", name: "Standard Elbow Plank", arabicName: "بلانك ثبات على الكوع (الرئيسي)", equipment: "مات أرضي", whyUseIt: "يقوي عضلات البطن العميقة واستقرار الجذع والحوض.", defaultWeight: 0, defaultReps: "45-60ث",
+            dos: ["خلي جسمك في خط مستقيم من الرأس إلى الكعبين.", "شد عضلات البطن والمؤخرة بقوة أثناء الثبات."],
+            donts: ["نزول الحوض لأسفل (يسبب ضغط على القطنية).", "رفع الحوض لأعلى كشكل الخيمة."],
+            githubFolder: "Plank"
           },
           { 
-            id: "d5-e4-alt1", name: "Lying Leg Raise on Bench", arabicName: "رفع رجلين مستلقي على الدكة (بديل 1)", equipment: "دكة مستوية", whyUseIt: "أسهل في التحكم ويمنع المرجحة بالجسم تماماً.", defaultWeight: 0, defaultReps: "12-15",
-            dos: ["استلقي على الدكة وامسك حافتها خلف رأسك.", "ارفع الساقين لأعلى حتى التعامد واعتصر عضلات البطن السفلى."],
-            donts: ["تقوس الظهر السفلي عن الدكة أثناء النزول.", "النزول السريع الخاطف."],
-            githubFolder: "Flat_Bench_Lying_Leg_Raise"
+            id: "d5-e4-alt1", name: "Side Plank", arabicName: "بلانك جانبي Side Plank (بديل 1)", equipment: "مات أرضي", whyUseIt: "يقوي عضلات البطن الجانبية (Obliques) وثبات الفخذ.", defaultWeight: 0, defaultReps: "30ث لكل جانب",
+            dos: ["ارتكز على كوع واحد وجانب القدم واجعل جسمك مستقيماً.", "ارفع حوضك لأعلى واثبت في موضع مرتفع."],
+            donts: ["سقوط الحوض باتجاه الأرض.", "لف الكتف العلوي للأمام."],
+            githubFolder: "Side_Plank"
           },
           { 
-            id: "d5-e4-alt2", name: "Decline Bench Crunch", arabicName: "طحن بطن على الدكة المائلة (بديل 2)", equipment: "دكة بطن مائلة", whyUseIt: "تمرين قوي ومباشر لتقسيم ونحت عضلات البطن.", defaultWeight: 0, defaultReps: "15",
-            dos: ["ثبت قدميك في أعلى الدكة المائلة وانزل بجذعك للخلف ببطء.", "اطلع بعصر عضلات البطن دون الضغط على الرقبة."],
-            donts: ["شد الرقبة باليدين أثناء الصعود.", "الصعود الكامل بالخصر."],
-            githubFolder: "Decline_Crunch"
+            id: "d5-e4-alt2", name: "High Plank on Hands", arabicName: "بلانك عالي على الكفين (بديل 2)", equipment: "مات أرضي", whyUseIt: "ثبات كامل للجذع والكتفين وعضلات البطن.", defaultWeight: 0, defaultReps: "45-60ث",
+            dos: ["ضع يديك تحت الكتفين مباشرة.", "ثبت الحوض واعتصر البطن."],
+            donts: ["تقوس أسفل الظهر لأسفل.", "ثني الكوعين."],
+            githubFolder: "Plank"
+          }
+        ]
+      },
+      { 
+        id: "d5-e5", name: "Ab Wheel Rollout", type: "عجلة البطن", sets: 3, reps: "10-12", defaultWeight: 0, notes: "أقوى تمرين انقباض واستطالة لعضلات البطن والجذع.",
+        alts: [
+          { 
+            id: "d5-e5-main", name: "Ab Wheel Rollout", arabicName: "عجلة البطن Ab Wheel (الرئيسي)", equipment: "عجلة بطن", whyUseIt: "تمرين متقدم يبني قوة انقباض وانبساط فائقة لعضلات البطن.", defaultWeight: 0, defaultReps: "10-12",
+            dos: ["انزل بالعجلة للأمام ببطء مع تثبيت القطنية والجذع.", "ارجع باستخدام عضلات بطنك وليس بسحب ذراعيك."],
+            donts: ["ترك الظهر السفلي يسقط ويتقوس لأسفل.", "الفرد الزائد عن قدرة عضلات بطنك."],
+            githubFolder: "Ab_Roller"
+          },
+          { 
+            id: "d5-e5-alt1", name: "Barbell Ab Rollout", arabicName: "عجلة البطن بالبار (بديل 1)", equipment: "بار مستقيم + طارات", whyUseIt: "بديل ممتاز بالبار لبناء القوة والتحكم في البطن والجذع.", defaultWeight: 0, defaultReps: "10-12",
+            dos: ["دحرج البار للأمام بجذع مفرود ومشدود.", "ارجع بعصر عضلات البطن."],
+            donts: ["تقوس الظهر لأسفل.", "الإسراع دون تحكم."],
+            githubFolder: "Ab_Roller"
+          },
+          { 
+            id: "d5-e5-alt2", name: "Swiss Ball Rollout", arabicName: "عجلة البطن على الكرة السويسرية (بديل 2)", equipment: "كرة سويسرية Swiss Ball", whyUseIt: "ثبات عالٍ وسهل الأداء لحماية أسفل الظهر.", defaultWeight: 0, defaultReps: "12-15",
+            dos: ["ضع الساعدين على الكرة وادفع للقدام ببطء.", "ارجع بعصر عضلات البطن."],
+            donts: ["سقوط الحوض لأسفل.", "شد الرقبة."],
+            githubFolder: "Exercise_Ball_Hamstring_Curl"
           }
         ]
       }
