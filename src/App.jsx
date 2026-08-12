@@ -1878,8 +1878,8 @@ const MainApp = () => {
       <div className="max-w-3xl mx-auto space-y-4 font-arabic min-w-0">
 
         {/* Compact Mobile Header */}
-        <header className="flex justify-between items-center h-14 bg-slate-900/90 border border-slate-800 rounded-2xl px-3 sm:px-4 shadow-lg min-w-0">
-          <div className="flex items-center gap-2 min-w-0">
+        <header className="flex justify-between items-center h-14 bg-slate-900/90 border border-slate-800 rounded-2xl px-3.5 sm:px-4 shadow-lg min-w-0">
+          <div className="flex items-center gap-2.5 min-w-0">
             <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-orange-600 to-amber-500 flex items-center justify-center text-white font-extrabold text-sm shadow-md shrink-0">
               AG
             </div>
@@ -1889,38 +1889,15 @@ const MainApp = () => {
             </div>
           </div>
 
-          <div className="flex items-center gap-1.5 shrink-0">
+          <div className="flex items-center shrink-0">
             <button 
               type="button"
-              aria-label="تفعيل وضع الشاشة المضاءة"
-              onClick={toggleWakeLock} 
-              className={`p-2 rounded-xl transition-all border font-bold text-xs min-h-[44px] min-w-[44px] flex items-center justify-center ${isWakeLockActive ? 'bg-amber-500/20 text-amber-300 border-amber-500/40' : 'bg-slate-950 border-slate-800 text-slate-400 hover:text-white'}`}
-              title="إبقاء الشاشة مضاءة 💡"
-            >
-            <button 
-              type="button"
-              aria-label="تفعيل إشعارات الجيم 8 مساءً"
-              onClick={requestNotificationPermission} 
-              className={`p-2 rounded-xl transition-all border font-bold text-xs min-h-[44px] min-w-[44px] flex items-center justify-center ${
-                notificationPermission === 'granted' 
-                  ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40' 
-                  : 'bg-slate-950 border-slate-800 text-slate-400 hover:text-white'
-              }`}
-              title="إشعار الجيم 8:00 مساءً 🔔"
-            >
-              <Zap className="w-4 h-4 text-emerald-400" />
-            </button>
-              <Zap className="w-4 h-4 text-amber-400" />
-            </button>
-
-            <button 
-              type="button"
-              aria-label="فتح قائمة الإعدادات والأدوات"
+              aria-label="فتح قائمة الإعدادات والإشعارات"
               onClick={() => { triggerHaptic(); setShowSettingsModal(true); }}
-              className="p-2 bg-slate-950 border border-slate-800 text-slate-300 hover:text-white rounded-xl transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
-              title="الإعدادات والأدوات ⚙️"
+              className="p-2 bg-slate-950 border border-slate-800 text-slate-300 hover:text-white rounded-xl transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center shadow-sm active:scale-95"
+              title="الإعدادات والإشعارات ⚙️"
             >
-              <Settings className="w-4 h-4" />
+              <Settings className="w-4.5 h-4.5 text-slate-300" />
             </button>
           </div>
         </header>
