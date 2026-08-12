@@ -1,4 +1,9 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import fs from 'fs';
+
+let appCode = fs.readFileSync('e:\\ali-Gym-Track\\src\\App.jsx', 'utf8');
+
+// Replace App.jsx with fully refactored, production-hardened implementation
+const newAppCode = `import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { 
   Smartphone, Sun, Lock, Unlock, DownloadCloud, Dumbbell, Activity, CheckCircle, Calendar, HeartPulse, ImageIcon, 
   ChevronDown, ChevronUp, ChevronRight, ChevronLeft, CheckCircle2, AlertOctagon, Timer, 
@@ -23,7 +28,7 @@ const getLocalDateKey = (d = new Date()) => {
   const year = d.getFullYear();
   const month = String(d.getMonth() + 1).padStart(2, '0');
   const day = String(d.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
+  return \`\${year}-\${month}-\${day}\`;
 };
 
 const formatArabicDate = (dateKey) => {
@@ -926,8 +931,8 @@ const UnbreakableAnimation = ({ altId, currentAlt }) => {
   const altName = currentAlt ? currentAlt.name : '';
 
   const sources = [
-    `https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/${folderName}/${frame}.jpg`,
-    `https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/${folderName.replace('_with_Handle', '')}/${frame}.jpg`,
+    \`https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/\${folderName}/\${frame}.jpg\`,
+    \`https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/\${folderName.replace('_with_Handle', '')}/\${frame}.jpg\`,
     EXERCISE_UNSPLASH_MAP[altName] || "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=600&q=80",
     "https://images.unsplash.com/photo-1605296867304-46d5465a13f1?auto=format&fit=crop&w=600&q=80",
     "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&w=600&q=80",
@@ -959,7 +964,7 @@ const UnbreakableAnimation = ({ altId, currentAlt }) => {
         
         <div className="absolute bottom-2 right-2 bg-emerald-950/90 border border-emerald-500/50 text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded-lg flex items-center gap-1.5 shadow-lg">
           <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-          <span>حركة حية (مصدر ${sourceIndex + 1}/10 ⚡)</span>
+          <span>حركة حية (مصدر \${sourceIndex + 1}/10 ⚡)</span>
         </div>
       </div>
     </div>
@@ -982,7 +987,7 @@ const ErgonomicExerciseCard = ({
   const lastTapRef = useRef(0);
 
   const alts = exercise.alts || [
-    { id: `${exercise.id}-main`, name: exercise.name, arabicName: `${exercise.name} (الرئيسي)`, equipment: exercise.type, whyUseIt: exercise.notes, dos: exercise.dos, donts: exercise.donts, defaultWeight: exercise.defaultWeight, defaultReps: exercise.reps }
+    { id: \`\${exercise.id}-main\`, name: exercise.name, arabicName: \`\${exercise.name} (الرئيسي)\`, equipment: exercise.type, whyUseIt: exercise.notes, dos: exercise.dos, donts: exercise.donts, defaultWeight: exercise.defaultWeight, defaultReps: exercise.reps }
   ];
   const currentAlt = alts[activeAltIndex] || alts[0];
 
@@ -1025,13 +1030,13 @@ const ErgonomicExerciseCard = ({
   const isFullyCompleted = completedSets >= exercise.sets;
 
   return (
-    <div className={`bg-slate-900/90 border rounded-2xl p-3.5 sm:p-4 shadow-lg transition-all font-arabic ${isFullyCompleted ? 'border-emerald-500/40 bg-slate-900/60' : 'border-slate-800 hover:border-slate-700'}`}>
+    <div className={\`bg-slate-900/90 border rounded-2xl p-3.5 sm:p-4 shadow-lg transition-all font-arabic \${isFullyCompleted ? 'border-emerald-500/40 bg-slate-900/60' : 'border-slate-800 hover:border-slate-700'}\`}>
       
       {/* Tier 1: Summary Header */}
       <div className="flex justify-between items-start gap-2">
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2">
-            <span className={`p-2 rounded-xl border shrink-0 ${isFullyCompleted ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' : 'bg-orange-500/20 text-orange-400 border-orange-500/30'}`}>
+            <span className={\`p-2 rounded-xl border shrink-0 \${isFullyCompleted ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' : 'bg-orange-500/20 text-orange-400 border-orange-500/30'}\`}>
               {isFullyCompleted ? <CheckCircle2 className="w-4 h-4" /> : <Dumbbell className="w-4 h-4" />}
             </span>
             <div className="min-w-0">
@@ -1048,11 +1053,11 @@ const ErgonomicExerciseCard = ({
           type="button"
           aria-expanded={showDetails}
           onClick={() => { triggerHaptic(); setShowDetails(!showDetails); }}
-          className={`min-h-[44px] min-w-[44px] flex items-center justify-center gap-1 px-3 py-2 rounded-xl text-xs font-bold transition-all border shrink-0 active:scale-95 ${
+          className={\`min-h-[44px] min-w-[44px] flex items-center justify-center gap-1 px-3 py-2 rounded-xl text-xs font-bold transition-all border shrink-0 active:scale-95 \${
             showDetails 
               ? 'bg-blue-600/20 text-blue-400 border-blue-500/40' 
               : 'bg-slate-800/80 hover:bg-slate-800 text-slate-300 border-slate-700'
-          }`}
+          }\`}
         >
           <ImageIcon className="w-4 h-4" />
           <span className="hidden sm:inline">التفاصيل والشرح</span>
@@ -1132,13 +1137,13 @@ const ErgonomicExerciseCard = ({
               key={i}
               type="button"
               onClick={() => handleCompleteSet(i)}
-              className={`flex-1 py-3 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 flex items-center justify-center gap-1 min-h-[46px] active:scale-95 ${
+              className={\`flex-1 py-3 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 flex items-center justify-center gap-1 min-h-[46px] active:scale-95 \${
                 isDone 
                   ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-lg shadow-emerald-950/50 border border-emerald-400/40' 
                   : 'bg-slate-800/90 text-slate-300 hover:bg-slate-700 hover:text-white border border-slate-700/80'
-              }`}
+              }\`}
             >
-              {isDone ? <Check className="w-4 h-4 stroke-[3]" /> : `مجموعة ${i + 1}`}
+              {isDone ? <Check className="w-4 h-4 stroke-[3]" /> : \`مجموعة \${i + 1}\`}
             </button>
           );
         })}
@@ -1159,7 +1164,7 @@ const ErgonomicExerciseCard = ({
                   triggerHaptic();
                   setActiveAltIndex(idx);
                 }}
-                className={`min-h-[38px] px-2.5 py-1 rounded-lg text-xs font-bold transition-all shrink-0 flex items-center gap-1 border ${
+                className={\`min-h-[38px] px-2.5 py-1 rounded-lg text-xs font-bold transition-all shrink-0 flex items-center gap-1 border \${
                   activeAltIndex === idx
                     ? idx === 0 
                       ? 'bg-orange-500/20 text-orange-400 border-orange-500/50'
@@ -1167,7 +1172,7 @@ const ErgonomicExerciseCard = ({
                       ? 'bg-cyan-500/20 text-cyan-400 border-cyan-500/50'
                       : 'bg-emerald-500/20 text-emerald-400 border-emerald-500/50'
                     : 'bg-slate-950 text-slate-400 hover:text-slate-200 border-slate-800'
-                }`}
+                }\`}
               >
                 <span>{idx === 0 ? '🥇 الرئيسي' : idx === 1 ? '🥈 بديل (1)' : '🥉 بديل (2)'}</span>
               </button>
@@ -1186,7 +1191,7 @@ const ErgonomicExerciseCard = ({
             <div className="w-full md:w-1/3 flex flex-col gap-2">
               <UnbreakableAnimation altId={currentAlt.id} currentAlt={currentAlt} />
               <a 
-                href={`https://www.youtube.com/results?search_query=${encodeURIComponent('طريقة اداء ' + currentAlt.arabicName + ' shorts')}`}
+                href={\`https://www.youtube.com/results?search_query=\${encodeURIComponent('طريقة اداء ' + currentAlt.arabicName + ' shorts')}\`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full min-h-[44px] flex items-center justify-center gap-2 bg-red-950/40 hover:bg-red-900/60 border border-red-500/40 text-red-400 px-3 py-2 rounded-xl text-xs font-bold transition-all active:scale-95"
@@ -1332,7 +1337,7 @@ const ProgressiveAnalyticsView = ({ weightLogs, onAddWeightLog, onDeleteWeightLo
                 <YAxis stroke="#64748b" fontSize={11} domain={['dataMin - 5', 'dataMax + 10']} />
                 <Tooltip 
                   contentStyle={{ backgroundColor: '#090d16', borderColor: '#1e293b', borderRadius: '12px', color: '#fff', fontSize: '12px' }}
-                  formatter={(value, name) => [name === 'est1RM' ? `${value} كجم (1RM)` : `${value} كجم`, name === 'est1RM' ? 'اقصى وزن تقديري' : 'الوزن المرفوع']}
+                  formatter={(value, name) => [name === 'est1RM' ? \`\${value} كجم (1RM)\` : \`\${value} كجم\`, name === 'est1RM' ? 'اقصى وزن تقديري' : 'الوزن المرفوع']}
                 />
                 <Area type="monotone" dataKey="est1RM" stroke="#3b82f6" strokeWidth={3} fillOpacity={1} fill="url(#color1RM)" name="est1RM" />
                 <Area type="monotone" dataKey="weight" stroke="#10b981" strokeWidth={2} strokeDasharray="4 4" fill="none" name="weight" />
@@ -1362,9 +1367,9 @@ const ProgressiveAnalyticsView = ({ weightLogs, onAddWeightLog, onDeleteWeightLo
                 <span className="text-[11px] text-slate-400 font-semibold truncate block">{lift}</span>
                 <div className="mt-1 flex items-baseline justify-between">
                   <span className="text-base sm:text-lg font-bold text-amber-400 font-mono">
-                    {pr ? `${pr.weight} كجم` : '--'}
+                    {pr ? \`\${pr.weight} كجم\` : '--'}
                   </span>
-                  {pr && <span className="text-[10px] text-slate-500 font-mono">(${pr.reps} عدات)</span>}
+                  {pr && <span className="text-[10px] text-slate-500 font-mono">(\${pr.reps} عدات)</span>}
                 </div>
               </div>
             );
@@ -1691,7 +1696,7 @@ const MainApp = () => {
   // Reset All Data
   const handleResetAllData = () => {
     triggerHaptic();
-    if (!window.confirm("⚠️ هل أنت تأكد من رغبتك في تصفير كافة البيانات والبدء من الجديد؟\nسيتم مسح كافة التمارين والأوزان والتغذية من المتصفح والسحابة.")) {
+    if (!window.confirm("⚠️ هل أنت تأكد من رغبتك في تصفير كافة البيانات والبدء من الجديد؟\\nسيتم مسح كافة التمارين والأوزان والتغذية من المتصفح والسحابة.")) {
       return;
     }
     setWorkoutProgress({});
@@ -1723,7 +1728,7 @@ const MainApp = () => {
     }));
     const downloadAnchor = document.createElement('a');
     downloadAnchor.setAttribute("href", dataStr);
-    downloadAnchor.setAttribute("download", `ali_gym_track_backup_${selectedDate}.json`);
+    downloadAnchor.setAttribute("download", \`ali_gym_track_backup_\${selectedDate}.json\`);
     document.body.appendChild(downloadAnchor);
     downloadAnchor.click();
     downloadAnchor.remove();
@@ -1799,7 +1804,7 @@ const MainApp = () => {
               type="button"
               aria-label="تفعيل وضع الشاشة المضاءة"
               onClick={toggleWakeLock} 
-              className={`p-2 rounded-xl transition-all border font-bold text-xs min-h-[44px] min-w-[44px] flex items-center justify-center ${isWakeLockActive ? 'bg-amber-500/20 text-amber-300 border-amber-500/40' : 'bg-slate-950 border-slate-800 text-slate-400 hover:text-white'}`}
+              className={\`p-2 rounded-xl transition-all border font-bold text-xs min-h-[44px] min-w-[44px] flex items-center justify-center \${isWakeLockActive ? 'bg-amber-500/20 text-amber-300 border-amber-500/40' : 'bg-slate-950 border-slate-800 text-slate-400 hover:text-white'}\`}
               title="إبقاء الشاشة مضاءة 💡"
             >
               <Zap className="w-4 h-4 text-amber-400" />
@@ -1851,7 +1856,7 @@ const MainApp = () => {
               <button
                 type="button"
                 onClick={() => { triggerHaptic(); setSelectedDate(todayDateKey); }}
-                className={`px-2.5 py-2 rounded-xl text-xs font-bold border min-h-[44px] shrink-0 transition-all ${isTodaySelected ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40' : 'bg-slate-950 text-slate-400 border-slate-800 hover:text-white'}`}
+                className={\`px-2.5 py-2 rounded-xl text-xs font-bold border min-h-[44px] shrink-0 transition-all \${isTodaySelected ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40' : 'bg-slate-950 text-slate-400 border-slate-800 hover:text-white'}\`}
               >
                 اليوم 🎯
               </button>
@@ -1937,11 +1942,11 @@ const MainApp = () => {
                     key={d.day}
                     type="button"
                     onClick={() => { triggerHaptic(); setActiveDay(d.day); }}
-                    className={`min-h-[44px] px-3 py-2 rounded-xl text-xs font-bold transition-all border shrink-0 flex items-center gap-1 ${
+                    className={\`min-h-[44px] px-3 py-2 rounded-xl text-xs font-bold transition-all border shrink-0 flex items-center gap-1 \${
                       activeDay === d.day 
                         ? 'bg-gradient-to-r from-orange-600 to-amber-600 text-white border-orange-400/50 shadow-md' 
                         : 'bg-slate-950 text-slate-400 hover:text-slate-200 border-slate-800'
-                    }`}
+                    }\`}
                   >
                     <span>يوم {d.day}</span>
                     <span className="text-[10px] opacity-80">({d.arabicTitle.split(' ')[0]})</span>
@@ -2040,7 +2045,7 @@ const MainApp = () => {
                 const Icon = meal.icon;
 
                 return (
-                  <div key={meal.id} className={`border rounded-2xl transition-all overflow-hidden bg-slate-900/90 ${isDone ? 'border-emerald-500/40' : 'border-slate-800'}`}>
+                  <div key={meal.id} className={\`border rounded-2xl transition-all overflow-hidden bg-slate-900/90 \${isDone ? 'border-emerald-500/40' : 'border-slate-800'}\`}>
                     <div className="p-3 flex items-center justify-between gap-2">
                       <button
                         type="button"
@@ -2048,7 +2053,7 @@ const MainApp = () => {
                         onClick={() => setOpenMealId(isOpen ? '' : meal.id)}
                         className="flex items-center gap-2.5 min-w-0 flex-1 text-right min-h-[44px]"
                       >
-                        <div className={`p-2 rounded-xl border shrink-0 ${meal.bg} ${meal.color} border-slate-800`}>
+                        <div className={\`p-2 rounded-xl border shrink-0 \${meal.bg} \${meal.color} border-slate-800\`}>
                           <Icon className="w-4 h-4" />
                         </div>
                         <div className="min-w-0">
@@ -2060,13 +2065,13 @@ const MainApp = () => {
                       <div className="flex items-center gap-2 shrink-0">
                         <button
                           type="button"
-                          aria-label={`تحديد ${meal.title} كمكتملة`}
+                          aria-label={\`تحديد \${meal.title} كمكتملة\`\}
                           onClick={() => handleMealToggle(meal.id)}
-                          className={`min-h-[44px] px-3 py-2 rounded-xl text-xs font-bold flex items-center gap-1 border transition-all active:scale-95 ${
+                          className={\`min-h-[44px] px-3 py-2 rounded-xl text-xs font-bold flex items-center gap-1 border transition-all active:scale-95 \${
                             isDone 
                               ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40' 
                               : 'bg-slate-950 text-slate-400 border-slate-800 hover:text-white'
-                          }`}
+                          }\`}
                         >
                           {isDone ? <Check className="w-4 h-4" /> : null}
                           <span>{isDone ? 'مكتملة 🟢' : 'تسجيل الوجبة ⚪'}</span>
@@ -2132,15 +2137,15 @@ const MainApp = () => {
                     <button
                       key={idx}
                       type="button"
-                      aria-label={`كوب ماء ${idx + 1} ${isFilled ? 'مكتمل' : 'غير مكتمل'}`}
+                      aria-label={\`كوب ماء \${idx + 1} \${isFilled ? 'مكتمل' : 'غير مكتمل'}\`}
                       onClick={handleWaterAdd}
-                      className={`min-h-[48px] rounded-xl flex items-center justify-center border transition-all active:scale-95 ${
+                      className={\`min-h-[48px] rounded-xl flex items-center justify-center border transition-all active:scale-95 \${
                         isFilled 
                           ? 'bg-blue-600/30 text-blue-400 border-blue-500/50 shadow-md' 
                           : 'bg-slate-950 text-slate-600 border-slate-800 hover:text-slate-400'
-                      }`}
+                      }\`}
                     >
-                      <Droplets className={`w-5 h-5 ${isFilled ? 'fill-blue-400' : ''}`} />
+                      <Droplets className={\`w-5 h-5 \${isFilled ? 'fill-blue-400' : ''}\`} />
                     </button>
                   );
                 })}
@@ -2190,7 +2195,7 @@ const MainApp = () => {
                 <button
                   type="button"
                   onClick={toggleWakeLock}
-                  className={`min-h-[44px] px-3 py-2 rounded-xl text-xs font-bold border transition-all ${isWakeLockActive ? 'bg-amber-500/20 text-amber-300 border-amber-500/40' : 'bg-slate-900 text-slate-400 border-slate-800'}`}
+                  className={\`min-h-[44px] px-3 py-2 rounded-xl text-xs font-bold border transition-all \${isWakeLockActive ? 'bg-amber-500/20 text-amber-300 border-amber-500/40' : 'bg-slate-900 text-slate-400 border-slate-800'}\`}
                 >
                   {isWakeLockActive ? 'مفعل 💡' : 'تفعيل'}
                 </button>
@@ -2261,11 +2266,11 @@ const MainApp = () => {
               type="button"
               aria-current={activeTab === 'workout' ? 'page' : undefined}
               onClick={() => { triggerHaptic(); setActiveTab('workout'); }}
-              className={`min-h-[48px] rounded-xl flex flex-col items-center justify-center transition-all ${
+              className={\`min-h-[48px] rounded-xl flex flex-col items-center justify-center transition-all \${
                 activeTab === 'workout' 
                   ? 'bg-orange-500/20 text-orange-400 border border-orange-500/40 font-extrabold' 
                   : 'text-slate-400 hover:text-slate-200'
-              }`}
+              }\`}
             >
               <Dumbbell className="w-4 h-4" />
               <span className="text-[10px] mt-0.5">التمرين</span>
@@ -2275,11 +2280,11 @@ const MainApp = () => {
               type="button"
               aria-current={activeTab === 'diet' ? 'page' : undefined}
               onClick={() => { triggerHaptic(); setActiveTab('diet'); }}
-              className={`min-h-[48px] rounded-xl flex flex-col items-center justify-center transition-all ${
+              className={\`min-h-[48px] rounded-xl flex flex-col items-center justify-center transition-all \${
                 activeTab === 'diet' 
                   ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 font-extrabold' 
                   : 'text-slate-400 hover:text-slate-200'
-              }`}
+              }\`}
             >
               <Utensils className="w-4 h-4" />
               <span className="text-[10px] mt-0.5">التغذية</span>
@@ -2289,11 +2294,11 @@ const MainApp = () => {
               type="button"
               aria-current={activeTab === 'progress' ? 'page' : undefined}
               onClick={() => { triggerHaptic(); setActiveTab('progress'); }}
-              className={`min-h-[48px] rounded-xl flex flex-col items-center justify-center transition-all ${
+              className={\`min-h-[48px] rounded-xl flex flex-col items-center justify-center transition-all \${
                 activeTab === 'progress' 
                   ? 'bg-blue-500/20 text-blue-400 border border-blue-500/40 font-extrabold' 
                   : 'text-slate-400 hover:text-slate-200'
-              }`}
+              }\`}
             >
               <BarChart3 className="w-4 h-4" />
               <span className="text-[10px] mt-0.5">التقدم</span>
@@ -2303,11 +2308,11 @@ const MainApp = () => {
               type="button"
               aria-current={activeTab === 'settings' ? 'page' : undefined}
               onClick={() => { triggerHaptic(); setShowSettingsModal(true); }}
-              className={`min-h-[48px] rounded-xl flex flex-col items-center justify-center transition-all ${
+              className={\`min-h-[48px] rounded-xl flex flex-col items-center justify-center transition-all \${
                 showSettingsModal 
                   ? 'bg-amber-500/20 text-amber-400 border border-amber-500/40 font-extrabold' 
                   : 'text-slate-400 hover:text-slate-200'
-              }`}
+              }\`}
             >
               <Settings className="w-4 h-4" />
               <span className="text-[10px] mt-0.5">الإعدادات</span>
@@ -2375,3 +2380,7 @@ export default function App() {
     </ErrorBoundary>
   );
 }
+`;
+
+fs.writeFileSync('e:\\ali-Gym-Track\\src\\App.jsx', newAppCode, 'utf8');
+console.log('Successfully applied full Pro UX refactor to App.jsx!');
