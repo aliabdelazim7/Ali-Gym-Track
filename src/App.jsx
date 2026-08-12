@@ -977,109 +977,144 @@ const playBeepSound = () => {
 
 
 
-// High Definition Visual Media & Illustration mapping per exercise
-const EXERCISE_MEDIA_MAP = {
+
+
+// Universal Exercise Folder Dictionary for 100% Live Motion Animation
+const EXERCISE_FOLDER_MAP = {
   // Chest
-  "Incline Dumbbell Press": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=600&q=80",
-  "Incline Barbell Bench Press": "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=600&q=80",
-  "Incline Machine Press": "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=600&q=80",
-  "Flat Dumbbell Press": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=600&q=80",
-  "Barbell Bench Press": "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=600&q=80",
-  "Machine Chest Press": "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=600&q=80",
+  "d1-e1-main": "Incline_Dumbbell_Press",
+  "d1-e1-alt1": "Barbell_Incline_Bench_Press_-_Medium_Grip",
+  "d1-e1-alt2": "Chest_dip",
+  "d4-e3-main": "Dumbbell_Bench_Press",
+  "d4-e3-alt1": "Chest_dip",
+  "d4-e3-alt2": "Barbell_Bench_Press_-_Medium_Grip",
 
   // Back
-  "T-Bar Row": "https://images.unsplash.com/photo-1605296867304-46d5465a13f1?auto=format&fit=crop&w=600&q=80",
-  "Bent-Over Barbell Row": "https://images.unsplash.com/photo-1605296867304-46d5465a13f1?auto=format&fit=crop&w=600&q=80",
-  "One-Arm Dumbbell Row": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=600&q=80",
-  "Wide-Grip Lat Pulldown": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&q=80",
-  "V-Bar Pulldown": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&q=80",
-  "Underhand Lat Pulldown": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&q=80",
-  "Seated Cable Row": "https://images.unsplash.com/photo-1605296867304-46d5465a13f1?auto=format&fit=crop&w=600&q=80",
-  "Chest Supported Row": "https://images.unsplash.com/photo-1605296867304-46d5465a13f1?auto=format&fit=crop&w=600&q=80",
-  "Pull-Ups": "https://images.unsplash.com/photo-1598971639058-fab3c3109a00?auto=format&fit=crop&w=600&q=80",
-  "Chin-Ups": "https://images.unsplash.com/photo-1598971639058-fab3c3109a00?auto=format&fit=crop&w=600&q=80",
+  "d1-e2-main": "T-Bar_Row_with_Handle",
+  "d1-e2-alt1": "Bent_Over_Barbell_Row",
+  "d1-e2-alt2": "One-Arm_Dumbbell_Row",
+  "d1-e3-main": "Wide-Grip_Lat_Pulldown",
+  "d1-e3-alt1": "V-bar_pulldown",
+  "d1-e3-alt2": "Pullups",
+  "d4-e1-main": "Wide-Grip_Lat_Pulldown",
+  "d4-e1-alt1": "V-bar_pulldown",
+  "d4-e1-alt2": "Pullups",
+  "d4-e2-main": "Seated_Cable_Rows",
+  "d4-e2-alt1": "One-Arm_Dumbbell_Row",
+  "d4-e2-alt2": "Dumbbell_Incline_Row",
 
   // Shoulders
-  "Cable Lateral Raise": "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&w=600&q=80",
-  "Dumbbell Lateral Raise": "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&w=600&q=80",
-  "Dumbbell Lateral Raise (Drop Set)": "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&w=600&q=80",
-  "Seated Dumbbell Lateral Raise": "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&w=600&q=80",
-  "Machine Lateral Raise": "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&w=600&q=80",
-  "Cable Face Pulls": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&q=80",
-  "Seated Rear Delt Raise": "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&w=600&q=80",
-  "Reverse Cable Flyes": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&q=80",
+  "d1-e4-main": "Side_Lateral_Raise",
+  "d1-e4-alt1": "Side_Lateral_Raise",
+  "d1-e4-alt2": "Seated_Dumbbell_Lateral_Raise",
+  "d4-e4-main": "Side_Lateral_Raise",
+  "d4-e4-alt1": "Side_Lateral_Raise",
+  "d4-e4-alt2": "Seated_Dumbbell_Lateral_Raise",
+  "d4-e5-main": "Face_Pull",
+  "d4-e5-alt1": "Seated_Rear_Delt_Raise",
+  "d4-e5-alt2": "Reverse_Flyes",
 
   // Arms
-  "Overhead Triceps Extension": "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=600&q=80",
-  "Cable Rope Pushdown": "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=600&q=80",
-  "Skullcrushers / Bench Dips": "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=600&q=80",
-  "Cable Bicep Curl": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=600&q=80",
-  "Dumbbell Alternate Curl": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=600&q=80",
-  "EZ-Bar Bicep Curl": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=600&q=80",
+  "d1-e5-main": "Standing_Dumbbell_Triceps_Extension",
+  "d1-e5-alt1": "Triceps_Pushdown",
+  "d1-e5-alt2": "Dips_-_Triceps_Version",
+  "d4-e6-main": "Cable_Preacher_Curl",
+  "d4-e6-alt1": "Dumbbell_Alternate_Bicep_Curl",
+  "d4-e6-alt2": "EZ-Bar_Curl",
 
   // Legs
-  "Leg Press Machine": "https://images.unsplash.com/photo-1434682881908-b43d0467b798?auto=format&fit=crop&w=600&q=80",
-  "Wide Stance Leg Press": "https://images.unsplash.com/photo-1434682881908-b43d0467b798?auto=format&fit=crop&w=600&q=80",
-  "Barbell Back Squat": "https://images.unsplash.com/photo-1574680096145-d05b474e2155?auto=format&fit=crop&w=600&q=80",
-  "Hack Squat Machine": "https://images.unsplash.com/photo-1574680096145-d05b474e2155?auto=format&fit=crop&w=600&q=80",
-  "Romanian Deadlift (RDL)": "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=600&q=80",
-  "Dumbbell RDL": "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=600&q=80",
-  "Single-Leg Dumbbell RDL": "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=600&q=80",
-  "Machine Leg Extension": "https://images.unsplash.com/photo-1574680096145-d05b474e2155?auto=format&fit=crop&w=600&q=80",
-  "Sissy Squats": "https://images.unsplash.com/photo-1574680096145-d05b474e2155?auto=format&fit=crop&w=600&q=80",
-  "Dumbbell Pass Leg Extension": "https://images.unsplash.com/photo-1574680096145-d05b474e2155?auto=format&fit=crop&w=600&q=80",
-  "Standing Calf Raise": "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=600&q=80",
-  "Seated Dumbbell Calf Raise": "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=600&q=80",
-  "Leg Press Calf Press": "https://images.unsplash.com/photo-1434682881908-b43d0467b798?auto=format&fit=crop&w=600&q=80",
-  "Bulgarian Split Squats": "https://images.unsplash.com/photo-1434682881908-b43d0467b798?auto=format&fit=crop&w=600&q=80",
-  "Dumbbell Walking Lunges": "https://images.unsplash.com/photo-1434682881908-b43d0467b798?auto=format&fit=crop&w=600&q=80",
-  "Barbell Reverse Lunge": "https://images.unsplash.com/photo-1574680096145-d05b474e2155?auto=format&fit=crop&w=600&q=80",
-  "Seated Leg Curl": "https://images.unsplash.com/photo-1574680096145-d05b474e2155?auto=format&fit=crop&w=600&q=80",
-  "Dumbbell Lying Leg Curl": "https://images.unsplash.com/photo-1574680096145-d05b474e2155?auto=format&fit=crop&w=600&q=80",
-  "Exercise Ball Hamstring Curl": "https://images.unsplash.com/photo-1574680096145-d05b474e2155?auto=format&fit=crop&w=600&q=80",
-  "Dumbbell Step-Ups": "https://images.unsplash.com/photo-1434682881908-b43d0467b798?auto=format&fit=crop&w=600&q=80",
+  "d2-e1-main": "Leg_Press",
+  "d2-e1-alt1": "Barbell_Full_Squat",
+  "d2-e1-alt2": "Hack_Squat",
+  "d2-e2-main": "Stiff-Legged_Barbell_Deadlift",
+  "d2-e2-alt1": "Romanian_Deadlift_With_Dumbbells",
+  "d2-e2-alt2": "Single-Leg_Deadlift_With_Dumbbells",
+  "d2-e3-main": "Leg_Extensions",
+  "d2-e3-alt1": "Sissy_Squats",
+  "d2-e3-alt2": "Dumbbell_pass",
+  "d2-e4-main": "Standing_Calf_Raises",
+  "d2-e4-alt1": "Seated_Calf_Raise",
+  "d2-e4-alt2": "Calf_Press_On_The_Leg_Press_Machine",
+  "d5-e1-main": "Dumbbell_Lunges",
+  "d5-e1-alt1": "Dumbbell_Walking_Lunge",
+  "d5-e1-alt2": "Barbell_Lunge",
+  "d5-e2-main": "Seated_Leg_Curl",
+  "d5-e2-alt1": "Dumbbell_Lying_Leg_Curl",
+  "d5-e2-alt2": "Exercise_Ball_Hamstring_Curl",
+  "d5-e3-main": "Leg_Press",
+  "d5-e3-alt1": "Hack_Squat",
+  "d5-e3-alt2": "Dumbbell_Step-Ups",
 
   // Core & Abs
-  "Standard Elbow Plank": "https://images.unsplash.com/photo-1566241142559-40e1dab266c6?auto=format&fit=crop&w=600&q=80",
-  "Side Plank": "https://images.unsplash.com/photo-1566241142559-40e1dab266c6?auto=format&fit=crop&w=600&q=80",
-  "High Plank on Hands": "https://images.unsplash.com/photo-1566241142559-40e1dab266c6?auto=format&fit=crop&w=600&q=80",
-  "Ab Wheel Rollout": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=600&q=80",
-  "Barbell Ab Rollout": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=600&q=80",
-  "Swiss Ball Rollout": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=600&q=80",
-  "Hanging Leg Raise": "https://images.unsplash.com/photo-1598971639058-fab3c3109a00?auto=format&fit=crop&w=600&q=80",
-  "Lying Leg Raise on Bench": "https://images.unsplash.com/photo-1566241142559-40e1dab266c6?auto=format&fit=crop&w=600&q=80",
-  "Decline Bench Crunch": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=600&q=80"
+  "d1-e6-main": "Plank",
+  "d1-e6-alt1": "Side_Plank",
+  "d1-e6-alt2": "Plank",
+  "d1-e7-main": "Ab_Roller",
+  "d1-e7-alt1": "Ab_Roller",
+  "d1-e7-alt2": "Exercise_Ball_Hamstring_Curl",
+
+  "d2-e5-main": "Plank",
+  "d2-e5-alt1": "Side_Plank",
+  "d2-e5-alt2": "Plank",
+  "d2-e6-main": "Ab_Roller",
+  "d2-e6-alt1": "Ab_Roller",
+  "d2-e6-alt2": "Exercise_Ball_Hamstring_Curl",
+
+  "d4-e7-main": "Plank",
+  "d4-e7-alt1": "Side_Plank",
+  "d4-e7-alt2": "Plank",
+  "d4-e8-main": "Ab_Roller",
+  "d4-e8-alt1": "Ab_Roller",
+  "d4-e8-alt2": "Exercise_Ball_Hamstring_Curl",
+
+  "d5-e4-main": "Plank",
+  "d5-e4-alt1": "Side_Plank",
+  "d5-e4-alt2": "Plank",
+  "d5-e5-main": "Ab_Roller",
+  "d5-e5-alt1": "Ab_Roller",
+  "d5-e5-alt2": "Exercise_Ball_Hamstring_Curl"
 };
 
 
-// ================= 100% HIGH DEFINITION EXERCISE MOVEMENT PLAYER =================
+// ================= 100% LIVE ANIMATED EXERCISE MOTION PLAYER =================
 const UnbreakableAnimation = ({ altId, currentAlt }) => {
   const [frame, setFrame] = useState(0);
-  const [imgError, setImgError] = useState(false);
 
-  // Fast smooth exercise pulse animation
+  // Fast smooth 450ms exercise motion loop
   useEffect(() => {
     const timer = setInterval(() => {
       setFrame(prev => (prev === 0 ? 1 : 0));
-    }, 600);
-    return () => clearInterval(timer);
-  }, []);
+    }, 450);
+    return () => clearTimeout(timer);
+  }, [altId, currentAlt]);
 
-  const altName = currentAlt ? currentAlt.name : '';
-  const mediaUrl = (currentAlt && EXERCISE_MEDIA_MAP[currentAlt.name]) || EXERCISE_MEDIA_MAP[altName] || "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=600&q=80";
+  // Resolve folder name
+  const folderName = (currentAlt && currentAlt.githubFolder) || 
+                     (currentAlt && EXERCISE_FOLDER_MAP[currentAlt.id]) || 
+                     EXERCISE_FOLDER_MAP[altId] || 
+                     "Plank";
+
+  const frame0Url = `https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/${folderName}/0.jpg`;
+  const frame1Url = `https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/${folderName}/1.jpg`;
+
+  const currentFrameUrl = frame === 0 ? frame0Url : frame1Url;
 
   return (
-    <div className="relative flex flex-col justify-center items-center w-full min-h-[190px] bg-slate-950 rounded-2xl p-2 overflow-hidden border border-slate-800 shadow-inner group">
-      <div className="relative w-full h-44 rounded-xl overflow-hidden bg-slate-900 flex items-center justify-center">
+    <div className="relative flex flex-col justify-center items-center w-full min-h-[200px] bg-slate-950 rounded-2xl p-2 overflow-hidden border border-slate-800 shadow-inner group">
+      {/* Preload both frames for zero flickering */}
+      <img src={frame0Url} className="hidden" alt="" />
+      <img src={frame1Url} className="hidden" alt="" />
+
+      <div className="relative w-full h-48 rounded-xl overflow-hidden bg-slate-900 flex items-center justify-center">
         <img 
-          src={mediaUrl} 
-          alt={altName || "Exercise"} 
-          className={`w-full h-full object-cover rounded-xl transition-all duration-500 ${frame === 1 ? 'scale-105 brightness-110' : 'scale-100 brightness-95'}`}
+          src={currentFrameUrl} 
+          alt={currentAlt ? currentAlt.name : "Exercise Motion"} 
+          className="max-h-44 object-contain rounded-xl transition-opacity duration-150 select-none"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
-        <div className="absolute bottom-2 right-2 bg-slate-900/90 border border-slate-700/80 text-orange-400 text-[10px] font-bold px-2 py-0.5 rounded-lg flex items-center gap-1 shadow-md">
-          <Activity className="w-3 h-3 text-emerald-400 animate-pulse" />
-          <span>شرح حركي تفاعلي</span>
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent pointer-events-none"></div>
+        <div className="absolute bottom-2 right-2 bg-emerald-950/90 border border-emerald-500/50 text-emerald-400 text-[11px] font-bold px-2.5 py-1 rounded-lg flex items-center gap-1.5 shadow-lg animate-pulse">
+          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+          <span>حركة حية متحركة (Live GIF)</span>
         </div>
       </div>
     </div>

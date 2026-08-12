@@ -1,37 +1,28 @@
-import https from 'https';
 import fs from 'fs';
-import path from 'path';
 
-// Let's test common folder names for Bench Press, HIIT, LISS Cardio
-const testPaths = [
-  // Bench Press
-  'Barbell_Bench_Press_-_Medium_Grip',
-  'Barbell_Bench_Press',
-  'Dumbbell_Bench_Press',
-  'Bench_press',
-  // Jumping Jacks
-  'Jumping_jack',
-  'Jumping_jacks',
-  'Jumping_Jack',
-  // Walking
-  'Treadmill_walking',
-  'Walking_on_treadmill',
-  'Walking_treadmill'
-];
+async function searchIndex() {
+  try {
+    const res = await fetch("https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/dist/exercises.json");
+    if (res.ok) {
+      const data = await res.json();
+      console.log('Total exercises in free-exercise-db:', data.length);
+      
+      const searchTerms = [
+        "plank", "t-bar", "lateral raise", "triceps", "biceps", "leg extension",
+        "calf", "bulgarian", "leg curl", "face pull", "row", "bench press"
+      ];
 
-async function check(folder) {
-  const url = `https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/${folder}/0.jpg`;
-  return new Promise((resolve) => {
-    https.get(url, { headers: { 'User-Agent': 'Mozilla/5.0' } }, (res) => {
-      resolve({ folder, status: res.statusCode });
-    }).on('error', (err) => resolve({ folder, error: err.message }));
-  });
-}
-
-async function run() {
-  for (const f of testPaths) {
-    console.log(await check(f));
+      searchTerms.forEach(term => {
+        const matches = data.filter(e => e.name.toLowerCase().includes(term));
+        console.log(`\n--- Matches for "${term}" (${matches.length}) ---`);
+        matches.slice(0, 5).forEach(m => console.log(`Name: "${m.name}" | Folder: "${m.images[0]}"`));
+      });
+    } else {
+      console.log('Fetch index status:', res.status);
+    }
+  } catch(e) {
+    console.error('Error fetching index:', e);
   }
 }
 
-run();
+searchIndex();
