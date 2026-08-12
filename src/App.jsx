@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { 
   Smartphone, Sun, Lock, Unlock, DownloadCloud, Dumbbell, Activity, CheckCircle, Calendar, HeartPulse, ImageIcon, 
   ChevronDown, ChevronUp, ChevronRight, ChevronLeft, CheckCircle2, AlertOctagon, Timer, 
-  X, RotateCcw, Apple, Flame, Briefcase, Zap, Moon, Coffee, Utensils, 
+  X, RotateCcw, Apple, Flame, Briefcase, Zap, Moon, Coffee, Utensils, Laptop, 
   Trophy, Target, MessageSquareQuote, TrendingUp, Plus, Trash2, Scale,
   Volume2, VolumeX, Download, Upload, Sparkles, RefreshCw, BarChart3, Info,
   Award, ShieldCheck, Droplets, Dumbbell as DumbbellIcon, Zap as ZapIcon,
